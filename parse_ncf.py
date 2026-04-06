@@ -33,14 +33,18 @@ def clip_to_PA(voi_raw):
     pa = pa.to_crs(voi_raw.rio.crs)
     voi_clipped_to_pa = voi_raw.rio.clip(pa.geometry, pa.crs, drop=True)
 
-    return voi_raw
+    return pa
 
     final_reprojected = voi_clipped_to_pa.rio.reproject("EPSG:4326")
     final_reprojected.rio.to_raster("pa_pm25_emissions_data.tif")
 
-def reproject
+def reproject_and_export(pa_voi,out_path):
+    final_reprojected = pa_voi.rio.reproject("EPSG:4326")
+    final_reprojected.rio.to_raster(out_path)
 
 
 
 if __name__ == "__main__":
-    parse_emission_ncf_to_tif("data/all_emissions_data.ncf","data/pm25_emissions_data.tif","PM25ANN")
+    ds = parse_emission_ncf("data/all_emissions_data.ncf","PM25ANN")
+    pa_ds = clip_to_PA(ds)
+    
