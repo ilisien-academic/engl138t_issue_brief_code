@@ -36,7 +36,7 @@ def clip_to_PA(voi_raw):
     return voi_clipped_to_pa
 
 def reproject_and_export(pa_voi,out_path):
-    final_reprojected = pa_voi.rio.reproject("EPSG:26918")
+    final_reprojected = pa_voi.rio.reproject("EPSG:2272")
     final_reprojected.rio.to_raster(out_path)
 
 
