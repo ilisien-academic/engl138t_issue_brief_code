@@ -33,10 +33,7 @@ def clip_to_PA(voi_raw):
     pa = pa.to_crs(voi_raw.rio.crs)
     voi_clipped_to_pa = voi_raw.rio.clip(pa.geometry, pa.crs, drop=True)
 
-    return pa
-
-    final_reprojected = voi_clipped_to_pa.rio.reproject("EPSG:4326")
-    final_reprojected.rio.to_raster("pa_pm25_emissions_data.tif")
+    return voi_clipped_to_pa
 
 def reproject_and_export(pa_voi,out_path):
     final_reprojected = pa_voi.rio.reproject("EPSG:4326")
