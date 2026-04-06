@@ -27,7 +27,7 @@ def parse_emission_ncf(in_path,voi):
     return only_voi
 
 def clip_to_PA(voi_raw):
-    states_shp = gpd.read_file("tl_2025_us_state.shp")
+    states_shp = gpd.read_file("data/tl_2025_us_state.shp")
     pa = states_shp[states_shp["NAME"] == "Pennsylvania"]
 
     pa = pa.to_crs(voi_raw.rio.crs)
