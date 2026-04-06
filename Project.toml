@@ -1,6 +1,7 @@
 [deps]
 ArchGDAL = "c9ce4bd3-c3d5-55b8-8973-c0e20141b8c3"
 CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+GeoDataFrames = "62cb38b5-d8d2-4862-a48e-6a340996859f"
 NPZ = "15e1cf62-19b3-5cfa-8e77-841668bca605"
 NetCDF = "30363a11-5582-574a-97bb-aa9a979735b9"
 Rasters = "a3a2b9e3-a471-40c9-b274-f788e487c689"
