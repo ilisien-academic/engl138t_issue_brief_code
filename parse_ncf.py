@@ -39,8 +39,6 @@ def reproject_and_export(pa_voi,out_path):
     final_reprojected = pa_voi.rio.reproject("EPSG:2272")
     final_reprojected.rio.to_raster(out_path)
 
-
-
 if __name__ == "__main__":
     ds = parse_emission_ncf("data/all_emissions_data.ncf","PM25ANN")
     pa_ds = clip_to_PA(ds)
