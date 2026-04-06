@@ -21,7 +21,7 @@ def parse_emission_ncf_to_tif(in_path,out_path,voi):
 
     only_voi.rio.write_transform(transform, inplace = True)
 
-    only_voi.rio.set_spatial_dims("ROW","COL")
+    only_voi.rio.set_spatial_dims("COL","ROW")
     only_voi.rio.to_raster(out_path)
 
 if __name__ == "__main__":
