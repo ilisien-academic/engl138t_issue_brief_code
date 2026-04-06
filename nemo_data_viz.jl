@@ -4,6 +4,7 @@ pa_pm25_emis = Raster("data/pa_pm25_emissions_data.tif")
 
 pa_census_tracts = GeoDataFrames.read("data/census_tracts/cb_2015_42_tract_500k.shp")
 
+reprojected_tracts = 
 
 
 pa_pm25_emis_nans = npzread("data/pa_pm25_emissions_data.npy")'
