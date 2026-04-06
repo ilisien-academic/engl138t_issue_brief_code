@@ -5,4 +5,4 @@ ALL_EMISSIONS_VARIABLES = ['VOCANN', 'NOXANN', 'COANN', 'SO2ANN', 'NH3ANN', 'PM2
 
 def parse_emissions(ncf_path,npy_path,emissions_variables=['PM25ANN']):
 
-    output_array = np.array
+    output_array = np.empty((len(emissions_variables),))
