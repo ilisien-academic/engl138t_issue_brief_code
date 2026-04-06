@@ -2,7 +2,6 @@ import xarray
 from rasterio.transform import from_origin
 import geopandas as gpd
 import numpy as np
-from basemap_data
 
 def parse_emission_ncf(in_path,voi):
     dataset = xarray.open_dataset(in_path)
