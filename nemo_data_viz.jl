@@ -1,5 +1,11 @@
 using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames
 
+pa_pm25_emis = Raster("data/pa_pm25_emissions_data.tif")
+
+pa_census_tracts = 
+
+
+
 pa_pm25_emis_nans = npzread("data/pa_pm25_emissions_data.npy")'
 
 pa_pm25_emis = ifelse.(isnan.(pa_pm25_emis_nans), missing, pa_pm25_emis_nans)
