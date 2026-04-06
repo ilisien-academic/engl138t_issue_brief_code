@@ -1,4 +1,4 @@
-using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes
+using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics
 
 pa_pm25_emis = Raster("data/pa_pm25_emissions_data.tif")
 
