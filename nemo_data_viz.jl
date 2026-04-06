@@ -2,7 +2,7 @@ using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames
 
 pa_pm25_emis = Raster("data/pa_pm25_emissions_data.tif")
 
-pa_census_tracts = 
+pa_census_tracts = GeoDataFrames.read("data/")
 
 
 
