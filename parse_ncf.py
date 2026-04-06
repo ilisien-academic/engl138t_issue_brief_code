@@ -24,4 +24,4 @@ def parse_emission_ncf_to_tif(in_path,out_path,voi):
     only_voi.rio.to_raster(out_path)
 
 if __name__ == "__main__":
-    parse_emission_ncf_to_tif("all_emissions_data.ncf","","PM25ANN")
+    parse_emission_ncf_to_tif("all_emissions_data.ncf","pm25_emissions_data.tif","PM25ANN")
