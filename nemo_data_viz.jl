@@ -7,6 +7,6 @@ fig = Figure()
 ax = Axis(fig[1,1],aspect=DataAspect())
 ax.yreversed = true
 
-heatmap!(pa_pm25_emis,color)
+heatmap!(pa_pm25_emis,cscale=log10)
 
 fig
