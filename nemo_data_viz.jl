@@ -4,7 +4,7 @@ using NPZ
 pa_pm25_emis = npzread("data/pa_pm25_emissions_data.npy")
 
 fig = Figure()
-ax = Axis(aspect=DataAspect())
+ax = Axis(fig[1,1],DataAspect())
 
 heatmap!(pa_pm25_emis)
 
