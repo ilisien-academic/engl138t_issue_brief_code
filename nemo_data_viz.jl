@@ -2,7 +2,7 @@ using CairoMakie
 using NPZ 
 
 pa_pm25_emis_nans = npzread("data/pa_pm25_emissions_data.npy")'
-pa_pm25_emis .= ifelse.(isnan.(pa_pm25_emis), missing, pa_pm25_emis)
+pa_pm25_emis .= ifelse.(isnan.(pa_pm25_emis_nans), missing, pa_pm25_emis_nans)
 
 fig = Figure()
 ax = Axis(fig[1,1],aspect=DataAspect())
