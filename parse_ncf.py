@@ -2,6 +2,7 @@ import xarray
 from rasterio.transform import from_origin
 import geopandas as gpd
 import numpy as np
+from osgeo import gdal
 
 def parse_emission_ncf(in_path,voi):
     dataset = xarray.open_dataset(in_path)
@@ -36,9 +37,11 @@ def clip_to_PA(voi_raw):
     return voi_clipped_to_pa
 
 def reproject_and_export(pa_voi,out_path):
-
     final_reprojected = pa_voi.rio.reproject("EPSG:2272")
     final_reprojected.rio.to_raster(out_path)
+
+def raster_to_npy(in_path,out_path):
+    
 
 if __name__ == "__main__":
     ds = parse_emission_ncf("data/all_emissions_data.ncf","PM25ANN")
