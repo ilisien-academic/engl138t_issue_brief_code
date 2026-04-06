@@ -1,5 +1,6 @@
 using CairoMakie
 using NPZ 
+using Rasters
 
 pa_pm25_emis_nans = npzread("data/pa_pm25_emissions_data.npy")'
 pa_pm25_emis = ifelse.(isnan.(pa_pm25_emis_nans), missing, pa_pm25_emis_nans)
