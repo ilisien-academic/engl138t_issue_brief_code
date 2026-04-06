@@ -7,3 +7,5 @@ fig = Figure()
 ax = Axis(aspect=DataAspect())
 
 heatmap!(pa_pm25_emis)
+
+fig
