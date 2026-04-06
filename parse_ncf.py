@@ -1,6 +1,7 @@
 import xarray
 import rioxarray
 from rasterio.transform import from_origin
+import geopandas as gpd
 
 def parse_emission_ncf_to_tif(in_path,out_path,voi):
     dataset = xarray.open_dataset(in_path)
@@ -23,6 +24,11 @@ def parse_emission_ncf_to_tif(in_path,out_path,voi):
 
     only_voi.rio.set_spatial_dims("COL","ROW")
     only_voi.rio.to_raster(out_path)
+
+def clip_to_PA(in_path,out_path):
+    states_shp = gpd.read_file("us_states.shp")
+    pa = states_shp[states_shp["NAME"] == "Pennsylvania"]
+
 
 if __name__ == "__main__":
     parse_emission_ncf_to_tif("data/all_emissions_data.ncf","data/pm25_emissions_data.tif","PM25ANN")
