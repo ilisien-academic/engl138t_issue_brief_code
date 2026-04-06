@@ -7,7 +7,7 @@ from osgeo import gdal
 def parse_emission_ncf(in_path,voi):
     dataset = xarray.open_dataset(in_path)
 
-    only_voi = dataset[voi].isel(TSTEP=0,LAY=0)# [::-1, :]
+    only_voi = dataset[voi].isel(TSTEP=0,LAY=0)[::-1, :]
 
     # parameters specific to the CONUS IOAPI format (at least this NEMO dataset) obtained from julia NetCDF's "ncinfo"
     xorig = -2701000.25
