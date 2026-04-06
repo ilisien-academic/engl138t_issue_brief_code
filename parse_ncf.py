@@ -1,5 +1,4 @@
 import xarray
-import rioxarray
 from rasterio.transform import from_origin
 import geopandas as gpd
 
