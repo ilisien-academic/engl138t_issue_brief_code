@@ -5,7 +5,7 @@ pa_pm25_emis = Raster("data/pa_pm25_emissions_data.tif")
 pa_census_tracts_up = GeoDataFrames.read("data/census_tracts/cb_2015_42_tract_500k.shp")
 pa_census_tracts = GeoFormatTypes.reproject(pa_census_tracts_up, GeoFormatTypes.EPSG(4269), GeoFormatTypes.EPSG(2272))
 
-zonal(pa_pm25_emis, )
+zonal(pa_pm25_emis, pa_census_tracts)
 
 
 pa_pm25_emis_nans = npzread("data/pa_pm25_emissions_data.npy")'
