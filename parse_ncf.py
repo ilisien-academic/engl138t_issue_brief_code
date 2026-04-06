@@ -25,9 +25,14 @@ def parse_emission_ncf_to_tif(in_path,out_path,voi):
     only_voi.rio.set_spatial_dims("COL","ROW")
     only_voi.rio.to_raster(out_path)
 
-def clip_to_PA(in_path,out_path):
+    return only_voi
+
+def clip_to_PA(in_path,out_path,voi_raw):
     states_shp = gpd.read_file("us_states.shp")
     pa = states_shp[states_shp["NAME"] == "Pennsylvania"]
+
+    pa = pa.to_crs(ncf_crs)
+
 
 
 if __name__ == "__main__":
