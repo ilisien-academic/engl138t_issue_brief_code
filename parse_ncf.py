@@ -43,9 +43,10 @@ def reproject_and_export(pa_voi,out_path):
 def raster_to_npy(in_path,out_path):
     pa_only_emissions_dataset = gdal.Open(in_path)
     np_array = np.array(pa_only_emissions_dataset.GetRasterBand(1).ReadAsArray())
-    
+    numpy.save(out_path)
 
 if __name__ == "__main__":
     ds = parse_emission_ncf("data/all_emissions_data.ncf","PM25ANN")
     pa_ds = clip_to_PA(ds)
     reproject_and_export(pa_ds,"data/pa_pm25_emissions_data.tif")
+    raster_to_npy("data/pa_pm25_emissions_data.tif","data/pa_pm25_emissions_data.npy")
