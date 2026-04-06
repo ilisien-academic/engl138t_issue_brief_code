@@ -3,10 +3,10 @@ import rioxarray
 from rasterio.transform import from_origin
 import geopandas as gpd
 
-def parse_emission_ncf_to_tif(in_path,out_path,voi):
+def parse_emission_ncf(in_path,voi):
     dataset = xarray.open_dataset(in_path)
 
-    only_voi = dataset["PM25ANN"].isel(TSTEP=0,LAY=0)
+    only_voi = dataset[voi].isel(TSTEP=0,LAY=0)
 
     # parameters specific to the CONUS IOAPI format (at least this NEMO dataset) obtained from julia NetCDF's "ncinfo"
     xorig = -2701000.25
@@ -23,15 +23,22 @@ def parse_emission_ncf_to_tif(in_path,out_path,voi):
     only_voi.rio.write_transform(transform, inplace = True)
 
     only_voi.rio.set_spatial_dims("COL","ROW")
-    only_voi.rio.to_raster(out_path)
 
     return only_voi
 
-def clip_to_PA(in_path,out_path,voi_raw):
+def clip_to_PA(voi_raw):
     states_shp = gpd.read_file("us_states.shp")
     pa = states_shp[states_shp["NAME"] == "Pennsylvania"]
 
-    pa = pa.to_crs(ncf_crs)
+    pa = pa.to_crs(voi_raw.rio.crs)
+    voi_clipped_to_pa = voi_raw.rio.clip(pa.geometry, pa.crs, drop=True)
+
+    return voi_raw
+
+    final_reprojected = voi_clipped_to_pa.rio.reproject("EPSG:4326")
+    final_reprojected.rio.to_raster("pa_pm25_emissions_data.tif")
+
+def reproject
 
 
 
