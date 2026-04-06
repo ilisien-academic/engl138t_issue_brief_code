@@ -47,4 +47,4 @@ def reproject_and_export(pa_voi,out_path):
 if __name__ == "__main__":
     ds = parse_emission_ncf("data/all_emissions_data.ncf","PM25ANN")
     pa_ds = clip_to_PA(ds)
-    
+    reproject_and_export(pa_ds)
