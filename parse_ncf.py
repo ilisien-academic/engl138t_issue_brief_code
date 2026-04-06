@@ -19,4 +19,6 @@ def parse_emission_ncf_to_tif(in_path,out_path,voi):
 
     only_voi = only_voi.rio.write_crs("+proj=lcc +lat_1=38.5 +lat_2=38.5 +lat_0=38.5 +lon_0=-97.5 +datum=WGS84 +units=m")
 
-    only_voi.rio.write_transform(transform, inplace = Ture)
+    only_voi.rio.write_transform(transform, inplace = True)
+
+    only_voi.rio.to_raster(out_path)
