@@ -21,7 +21,7 @@ pa_census_tracts_up = GeoDataFrames.read("data/census_tracts/cb_2015_42_tract_50
 pa_census_tracts = GeoDataFrames.reproject(pa_census_tracts_up, GeoFormatTypes.EPSG(4269), GeoFormatTypes.EPSG(2272))
 
 geoms = pa_census_tracts.geometry
-pa_census_tracts[!,:mean_emis] .= 0.0
+pa_census_tracts[!,:mean_emis] = Vector{Union{Missing, Float64}}(undef, length(geoms))
 
 @threads for i in eachindex(geoms)
     pa_census_tracts[i,:mean_emis] = mean_raster_in_shape(pa_pm25_emis, geoms[i])
