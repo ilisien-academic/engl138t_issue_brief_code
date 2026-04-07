@@ -28,12 +28,12 @@ pa_census_tracts_up = GeoDataFrames.read("data/census_tracts/cb_2015_42_tract_50
 pa_census_tracts = GeoDataFrames.reproject(pa_census_tracts_up, GeoFormatTypes.EPSG(4269), GeoFormatTypes.EPSG(2272))
 
 write("data/tmp_emissions.tif", pa_pm25_emis)
-tmp_tracts_string = GeoJSON.write(pa_census_tracts)
+tmp_tracts_string = GeoJSON.write(pa_census_tracts, force=true)
 PYgpd = pyimport("geopandas")
 PYee = pyimport("exactextract")
 
 PY_tracts = PYgpd.read_file(tmp_tracts_string, driver="GeoJSON")
-PY_emis_mean = PYee.exact_extract("data/tmp_emissions.tif",PY_tracts, ["mean"], force=true)
+PY_emis_mean = PYee.exact_extract("data/tmp_emissions.tif",PY_tracts, ["mean"])
 emis_means = [pyconvert(Float64, em["mean"]) for em in PY_emis_mean]
 pa_census_tracts[!,:mean_emis] = emis_means
 
