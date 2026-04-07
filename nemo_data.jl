@@ -22,7 +22,7 @@ pa_census_tracts = GeoDataFrames.reproject(pa_census_tracts_up, GeoFormatTypes.E
 geoms = pa_census_tracts.geometry
 pa_census_tracts[!,:mean_emis] .= 0.0
 
-buffers = [similar(pa_pm25_emis, Float64) for _ in 1:nthreads()]
+buffers = [similar(pa_pm25_emis, Float64) for _ in 1:nthreads()+1]
 
 @threads for i in eachindex(geoms)
     println(threadid())
