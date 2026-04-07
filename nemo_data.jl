@@ -37,7 +37,6 @@ poly!(ax,
       pa_census_tracts.geometry;
       color = pa_census_tracts.mean_emis,
       colormap = :plasma,
-      colorscale = log10,
 )
 
 print(pa_census_tracts)
