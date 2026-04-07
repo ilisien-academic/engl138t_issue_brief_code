@@ -72,8 +72,6 @@ pop_tall.age_group = map_pop_group.(pop_tall.age_group)
 pop_tall.population = [pop isa Float64 ? pop : missing for pop in pop_tall.population]
 deaths.rate = [death isa Float64 ? death : missing for death in deaths.rate]
 
-
-
 pop_grouped = DataFrames.combine(groupby(pop_tall,[:tract,:age_group]), :population => sum => :population)
 
 pop_and_deaths = innerjoin(deaths, pop_grouped, on=[:tract, :age_group])
