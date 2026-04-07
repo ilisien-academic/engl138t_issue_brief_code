@@ -23,12 +23,8 @@ pa_census_tracts = GeoDataFrames.reproject(pa_census_tracts_up, GeoFormatTypes.E
 geoms = pa_census_tracts.geometry
 pa_census_tracts[!,:mean_emis] .= 0.0
 
-buffers = [similar(pa_pm25_emis, Float64) for _ in 1:nthreads()+1]
-
 @threads for i in eachindex(geoms)
-    println(threadid())
-    cvg = buffers[threadid()]
-    pa_census_tracts[i,:mean_emis] = mean_raster_in_shape(pa_pm25_emis, geoms[i])
+    pa_census_tracts[i, :mean_emis] = mean_raster_in_shape(pa_pm25_emis, geoms[i])
 end
 
 #=plot!(ax, pa_pm25_emis; colormap = :plasma, colorscale=log10, nan_color = (:white, 0))
