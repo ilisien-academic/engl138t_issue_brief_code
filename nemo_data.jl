@@ -38,7 +38,7 @@ fig = Figure()
 ax = Axis(fig[1,1],aspect=DataAspect())
 
 poly!(ax,
-      skipmissing(pa_census_tracts.geometry;
+      pa_census_tracts.geometry;
       color = skipmissing(pa_census_tracts.mean_emis),
       colormap = :plasma,
       strokecolor = :white,
