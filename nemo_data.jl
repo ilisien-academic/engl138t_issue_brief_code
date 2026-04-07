@@ -1,11 +1,19 @@
 using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra
 using Base.Threads
 
+<<<<<<< HEAD
 function mean_raster_in_shape(raster, shape)
     cropped = crop(raster; to=shape, pad=true)
     cvg = Rasters.coverage(shape; to=cropped, scale=10)
     masked_raster = mask(cropped; with=shape)
     return sum(skipmissing(cvg .* masked_raster)) / sum(skipmissing(cvg))
+=======
+# this version isn't happy to just work -- might be able to figure something out but for now this'll need to do
+
+function mean_raster_in_shape(cvg,raster_wo_missings,shape)
+    Rasters.coverage!(cvg,shape;scale=1)
+    return dot(cvg,raster_wo_missings)/sum(cvg)
+>>>>>>> 272b7e4 (Apr 7, 2026, 4:44 AM)
 end
 
 pa_pm25_emis_tif = Raster("data/pa_pm25_emissions_data.tif")
