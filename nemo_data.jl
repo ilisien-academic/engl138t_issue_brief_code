@@ -21,6 +21,16 @@ end
 fig = Figure()
 ax = Axis(fig[1,1],aspect=DataAspect())
 
+plot!(ax, pa_pm25_emis; colormap = :plasma, nan_color = (:white, 0))
+
+poly!(ax, pa_census_tracts.geometry; color=(:white,0),strokecolor=:black,strokewidth=0.5)
+
+fig
+
+#=
+fig = Figure()
+ax = Axis(fig[1,1],aspect=DataAspect())
+
 valid_emis = filter(isfinite, pa_census_tracts.mean_emis)
 clims = (quantile(valid_emis, 0.02), quantile(valid_emis, 0.98))
 
@@ -36,6 +46,6 @@ poly!(ax,
 Colorbar(fig[1, 2],
     colormap = :plasma,
     colorrange = clims,
-)
+)=#
 
 fig
