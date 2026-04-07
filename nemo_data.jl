@@ -37,7 +37,6 @@ fig=#
 fig = Figure()
 ax = Axis(fig[1,1],aspect=DataAspect())
 
-valid_emis = filter(isfinite, pa_census_tracts.mean_emis)
 clims = (quantile(valid_emis, 0.02), quantile(valid_emis, 0.98))
 
 poly!(ax,
