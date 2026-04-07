@@ -1,15 +1,16 @@
 using CSV, DataFrames
 
-DEATHS_AGE_GROUPS = ["Under 5",
-                     "5-14",
-                     "15-24",
-                     "25-34",
-                     "35-44",
-                     "45-54",
-                     "55-64",
-                     "65-74",
-                     "75-84",
-                     "85 and older"
+DEATHS_AGE_GROUPS = [
+    "Under 5",
+    "5-14",
+    "15-24",
+    "25-34",
+    "35-44",
+    "45-54",
+    "55-64",
+    "65-74",
+    "75-84",
+    "85 and older"
 ]
 
 POP_PREFIX = "Total!!Estimate!!AGE!!"
