@@ -40,7 +40,7 @@ deaths = CSV.read("data/pop_and_death_data/death.csv",DataFrame)
 
 pop.Geography = [i[2] for i in split.(pop.Geography,"S")]
 
-pop_tall = DataFrames.stack(pop, POP_AGE_GROUPS; variable_name = :pop_age_group, value_name = :population)
+pop_tall = DataFrames.stack(pop, POP_AGE_GROUPS; variable_name = :age_group, value_name = :population)
 
 rename!(pop_tall, :Geography => :tract)
 
@@ -68,11 +68,10 @@ function map_pop_group(g)
     end
 end
 
-pop_tall.pop_age_group = map_pop_group.(pop_tall.pop_age_group)
+pop_tall.age_group = map_pop_group.(pop_tall.age_group)
 
-pop_grouped = combine(groupby(pop_tall,[:tract,:pop_age_group]), :population => sum => :population)
+pop_grouped = combine(groupby(pop_tall,[:tract,:age_group]), :population => sum => :population)
 
-rename!(deaths,:tractid => :tract)
 
-pop_and_deaths = innerjoin(deaths, pop_grouped, on=[:tract, :pop_age_group])
+pop_and_deaths = innerjoin(deaths, pop_grouped, on=[:tract, :age_group])
 
