@@ -1,6 +1,6 @@
 ENV["JULIA_PYTHONCALL_EXE"] = "env/scripts/python.exe"
 
-using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra, PythonCall, GeoJSON
+using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra, PythonCall, GeoJSON, DataFrames
 using Base.Threads
 
 pa_pm25_emis_tif = Raster("data/pa_pm25_emissions_data.tif")
