@@ -18,9 +18,6 @@ Threads.@threads for i in eachindex(pa_census_tracts[!,:geometry])
     pa_census_tracts[i,:mean_emis] = mean_raster_in_shape(cvg,pa_pm25_emis,pa_census_tracts[i,:geometry])
 end
 
-
-mean_in_tracts = zonal(mean, pa_pm25_emis; geometrycolumn=:geometry, of=pa_census_tracts, boundary=:touches)
-
 print(mean_in_tracts)
 
 #=
