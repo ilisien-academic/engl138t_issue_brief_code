@@ -38,7 +38,7 @@ POP_AGE_GROUPS = POP_PREFIX .* [
 function map_age_group(pop_group)
 
     if pop_group == POP_PREFIX * "Under 5 years"
-        return "Under 1"
+        return "Under 1" # very similar rates of death
 
     elseif pop_group in [
         POP_PREFIX*"5 to 9 years",
