@@ -87,7 +87,7 @@ joined.age_group = map_pop_to_coarse.(joined.pop_age_group)
 pop_and_deaths = DataFrames.combine(
     groupby(joined, [:tract, :age_group]),
     [:rate, :population] => ((r, p) -> sum(skipmissing(r .* p)) / sum(skipmissing(p))) => :rate,
-    :population => sum => :population
+    [:pop_age_group, :population] => ((ag, p) -> sum(last(p[ag .== g]) for g in unique(ag))) => :population
 )
 
 
