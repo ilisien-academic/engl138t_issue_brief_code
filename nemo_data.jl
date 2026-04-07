@@ -18,17 +18,22 @@ Threads.@threads for i in eachindex(pa_census_tracts[!,:geometry])
     pa_census_tracts[i,:mean_emis] = mean_raster_in_shape(cvg,pa_pm25_emis,pa_census_tracts[i,:geometry])
 end
 
-print(mean_in_tracts)
-
-#=
-pa_pm25_emis_nans = npzread("data/pa_pm25_emissions_data.npy")'
-
-pa_pm25_emis = ifelse.(isnan.(pa_pm25_emis_nans), missing, pa_pm25_emis_nans)
-
 fig = Figure()
 ax = Axis(fig[1,1],aspect=DataAspect())
-ax.yreversed = true
 
-heatmap!(pa_pm25_emis,colorscale=log10)
+valid_emis = filter(isfinite, pa_census_tracts.mean_emis)
+clims = (quantile(valid_emis, 0.02), quantile(valid_emis, 0.98))
 
-fig=#
+poly!(ax,
+    pa_census_tracts.geometry;
+    color = pa_census_tracts.mean_emis,
+    colormap = :plasma,
+    colorrange = clims,
+    strokecolor = :white,
+    strokewidth = 0.3
+)
+
+Colorbar(fig[1, 2],
+    colormap = :plasma,
+    colorrange = clims,
+)
