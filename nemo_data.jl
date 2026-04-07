@@ -27,7 +27,7 @@ coalesce.(pa_pm25_emis, 0.0)
 pa_census_tracts_up = GeoDataFrames.read("data/census_tracts/cb_2015_42_tract_500k.shp")
 pa_census_tracts = GeoDataFrames.reproject(pa_census_tracts_up, GeoFormatTypes.EPSG(4269), GeoFormatTypes.EPSG(2272))
 
-write("data/tmp_emissions.tif", pa_pm25_emis, force=true)
+Rasters.write("data/tmp_emissions.tif", pa_pm25_emis, force=true)
 tmp_tracts_string = GeoJSON.write(pa_census_tracts)
 PYgpd = pyimport("geopandas")
 PYee = pyimport("exactextract")
