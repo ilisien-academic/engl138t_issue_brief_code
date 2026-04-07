@@ -86,8 +86,11 @@ joined.age_group = map_pop_to_coarse.(joined.pop_age_group)
 
 pop_and_deaths = DataFrames.combine(
     groupby(joined, [:tract, :age_group]),
-    [:rate, :population] => ((r, p) -> sum(skipmissing(r .* p)) / sum(skipmissing(p))) => :rate,
-    :population => sum => :population
+    [:rate, :population] => ((r, p) -> begin
+        mask = .!ismissing.(r) .& .!ismissing.(p)
+        any(mask) ? sum(r[mask] .* p[mask]) / sum(p[mask]) : missing
+    end) => :rate,
+    :population => (p -> sum(skipmissing(p))) => :population
 )
 
 CSV.write("data/pop_and_death_data/pop_and_deaths.csv", pop_and_deaths)
