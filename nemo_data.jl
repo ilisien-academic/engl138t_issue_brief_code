@@ -3,7 +3,7 @@ using Base.Threads
 
 # this version isn't happy to just work -- might be able to figure something out but for now this'll need to do
 
-function mean_raster_in_shape(cvg,raster_wo_missings,shape)
+function mean_raster_in_shape(raster,shape)
     #Rasters.coverage!(cvg,shape;scale=1)
     #return dot(cvg,raster_wo_missings)/sum(cvg)
     Rasters.zonal(mean,)
