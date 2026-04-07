@@ -1,14 +1,19 @@
 using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra
+using Base.Threads
 
 function mean_raster_in_shape(cvg,raster_wo_missings,shape)
     Rasters.coverage!(cvg,shape;scale=25)
     return cdot(cvg,raster_wo_missings)/sum(cvg)
+end
 
 pa_pm25_emis = Raster("data/pa_pm25_emissions_data.tif")
 
 pa_census_tracts_up = GeoDataFrames.read("data/census_tracts/cb_2015_42_tract_500k.shp")
 pa_census_tracts = GeoDataFrames.reproject(pa_census_tracts_up, GeoFormatTypes.EPSG(4269), GeoFormatTypes.EPSG(2272))
 
+Threads.@threads for shape in pa_census_tracts[!,:geometry]
+    
+end
 
 
 mean_in_tracts = zonal(mean, pa_pm25_emis; geometrycolumn=:geometry, of=pa_census_tracts, boundary=:touches)
