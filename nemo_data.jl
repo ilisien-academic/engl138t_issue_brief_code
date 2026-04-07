@@ -45,8 +45,6 @@ poly!(ax,
       strokewidth = 0.3
 )
 
-Colorbar(fig[1, 2], colormap = :plasma)
-
 #=
 pa_pm25_emis_nans = npzread("data/pa_pm25_emissions_data.npy")'
 
