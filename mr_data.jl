@@ -70,7 +70,7 @@ end
 
 pop_tall.age_group = map_pop_group.(pop_tall.age_group)
 
-pop_grouped = combine(groupby(pop_tall,[:tract,:age_group]), :population => sum => :population)
+pop_grouped = DataFrames.combine(groupby(pop_tall,[:tract,:age_group]), :population => sum => :population)
 
 
 pop_and_deaths = innerjoin(deaths, pop_grouped, on=[:tract, :age_group])
