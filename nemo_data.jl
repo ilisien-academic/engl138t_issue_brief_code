@@ -47,5 +47,3 @@ Colorbar(fig[1, 2],
     colormap = :plasma,
     colorrange = clims,
 )=#
-
-fig
