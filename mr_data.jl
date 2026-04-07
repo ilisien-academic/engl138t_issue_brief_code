@@ -75,3 +75,4 @@ pop_grouped = combine(groupby(pop_tall,[:tract,:age_group]), :population => sum 
 
 pop_and_deaths = innerjoin(deaths, pop_grouped, on=[:tract, :age_group])
 
+CSV.write("data/pop_and_death_data/pop_and_deaths.csv",pop_and_deaths)
