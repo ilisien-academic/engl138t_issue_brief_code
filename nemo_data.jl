@@ -1,3 +1,5 @@
+ENV["JULIA_PYTHONCALL_EXE"] = "env/bin/"
+
 using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra, PythonCall
 using Base.Threads
 
