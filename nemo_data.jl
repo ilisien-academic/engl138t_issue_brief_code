@@ -25,7 +25,7 @@ pa_census_tracts[!,:mean_emis] .= 0.0
 buffers = [similar(pa_pm25_emis, Float64) for _ in 1:nthreads()]
 
 @threads for i in eachindex(geoms)
-    print(threadid())
+    println(threadid())
     cvg = buffers[threadid()]
     pa_census_tracts[i,:mean_emis] = mean_raster_in_shape(cvg, pa_pm25_emis, geoms[i])
 end
