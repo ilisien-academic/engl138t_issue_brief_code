@@ -9,7 +9,6 @@ def parse_emission_ncf(in_path,voi):
 
     only_voi = dataset[voi].isel(TSTEP=0,LAY=0)[::-1, :]
 
-    # parameters specific to the CONUS IOAPI format (at least this NEMO dataset) obtained from julia NetCDF's "ncinfo"
     xorig = -2701000.25
     yorig = -1580581.38
     xcell = 1000
@@ -17,13 +16,12 @@ def parse_emission_ncf(in_path,voi):
     ncols = 5397
     nrows = 3177
 
-    transform = from_origin(xorig,yorig + ycell * nrows, xcell, ycell)
+    x_coords = xorig + xcell * (np.arange(only_voi.sizes["COL"]) + 0.5)
+    y_coords = yorig + ycell * nrows - ycell * (np.arange(only_voi.sizes["ROW"]) + 0.5)
 
+    only_voi = only_voi.assign_coords(COL=x_coords, ROW=y_coords)
     only_voi = only_voi.rio.write_crs("+proj=lcc +lat_1=38.5 +lat_2=38.5 +lat_0=38.5 +lon_0=-97.5 +datum=WGS84 +units=m")
-
-    only_voi.rio.write_transform(transform, inplace = True)
-
-    only_voi.rio.set_spatial_dims("COL","ROW")
+    only_voi = only_voi.rio.set_spatial_dims("COL","ROW")
 
     return only_voi
 
