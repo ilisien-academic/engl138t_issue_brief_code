@@ -49,8 +49,6 @@ rename!(pop_tall, :Geography => :tract)
 function map_death_group(g)
     if g == "Under 1" || g == "1-4"
         return "Under 5"
-    else
-        return g
     elseif occursin("5 to 9", g) || occursin("10 to 14", g)
         return "5-14"
     elseif occursin("15 to 19", g) || occursin("20 to 24", g)
