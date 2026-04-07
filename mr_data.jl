@@ -74,3 +74,4 @@ pop_grouped = combine(groupby(pop_tall,[:tract,:age_group]), :population => sum 
 
 rename!(deaths,:tractid => :tract)
 
+pop_and_deaths
