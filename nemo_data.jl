@@ -5,7 +5,7 @@ function mean_raster_in_shape(raster, shape)
     cropped = crop(raster; to=shape, pad=true)
     cvg = Rasters.coverage(shape; to=cropped, scale=10)
     masked_raster = mask(cropped; with=shape)
-    return sum(cvg .* masked_raster) / sum(cvg)
+    return sum(skipmissing(cvg .* masked_raster)) / sum(skipmissing(cvg))
 end
 
 pa_pm25_emis_tif = Raster("data/pa_pm25_emissions_data.tif")
