@@ -66,14 +66,14 @@ deaths = CSV.read("data/pop_and_death_data/death.csv", DataFrame)
 deaths.age_group = replace.(deaths.age_group, "\n" => "", "\r" => " ", "\"" => "")
 deaths.age_group = strip.(deaths.age_group)
 deaths.tract = string.(deaths.tract)
-deaths.rate = [v isa Float64 ? v : missing for v in deaths.rate]
+deaths.rate = [ismissing(v) ? missing : tryparse(Float64, string(v)) for v in deaths.rate]
 
 pop.Geography = [i[2] for i in split.(pop.Geography, "S")]
 
 pop_tall = DataFrames.stack(pop, POP_AGE_GROUPS; variable_name = :age_group, value_name = :population)
 rename!(pop_tall, :Geography => :tract)
 pop_tall.age_group = replace.(pop_tall.age_group, POP_PREFIX => "")
-pop_tall.population = [v isa Float64 ? v : missing for v in pop_tall.population]
+pop_tall.population = [ismissing(v) ? missing : tryparse(Float64, string(v)) for v in pop_tall.population]
 
 expanded = DataFrames.flatten(
     transform(deaths, :age_group => ByRow(g -> death_to_pop_fine[g]) => :pop_age_group),
