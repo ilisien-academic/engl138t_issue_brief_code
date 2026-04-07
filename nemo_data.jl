@@ -2,7 +2,7 @@ using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statis
 using Base.Threads
 
 function mean_raster_in_shape(cvg,raster_wo_missings,shape)
-    cvg = Rasters.coverage(shape;to=cvg,scale=25)
+    cvg = Rasters.coverage(shape;to=cvg,scale=25,progress=false,verbose=false)
     return dot(cvg,raster_wo_missings)/sum(cvg)
 end
 
