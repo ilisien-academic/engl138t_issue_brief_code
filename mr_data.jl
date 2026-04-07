@@ -38,6 +38,8 @@ POP_AGE_GROUPS = POP_PREFIX .* [
 pop = CSV.read("data/pop_and_death_data/pop.csv",DataFrame)
 deaths = CSV.read("data/pop_and_death_data/death.csv",DataFrame)
 
+deaths.age_group = replace.(deaths.age_group, "\n" => " ")
+
 pop.Geography = [i[2] for i in split.(pop.Geography,"S")]
 
 pop_tall = DataFrames.stack(pop, POP_AGE_GROUPS; variable_name = :age_group, value_name = :population)
