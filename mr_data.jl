@@ -70,8 +70,9 @@ end
 
 pop_tall.pop_age_group = map_pop_group.(pop_tall.pop_age_group)
 
-pop_grouped = combine(groupby(pop_tall,[:tract,:age_group]), :population => sum => :population)
+pop_grouped = combine(groupby(pop_tall,[:tract,:pop_age_group]), :population => sum => :population)
 
 rename!(deaths,:tractid => :tract)
 
-pop_and_deaths
+pop_and_deaths = innerjoin(deaths, pop_grouped, on=[:tract, :pop_age_group])
+
