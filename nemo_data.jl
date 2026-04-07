@@ -6,7 +6,7 @@ ax = Axis(fig[1,1],aspect=DataAspect())
 
 function mean_raster_in_shape(cvg,raster_wo_missings,shape)
     print(shape)
-    Rasters.coverage!(cvg,shape;scale=50)
+    Rasters.coverage!(cvg,shape;scale=100)
     return sum(cvg) #dot(cvg,raster_wo_missings)/sum(cvg)
 end
 
