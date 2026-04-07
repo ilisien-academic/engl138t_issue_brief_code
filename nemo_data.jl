@@ -3,7 +3,7 @@ using Base.Threads
 
 function mean_raster_in_shape(cvg,raster_wo_missings,shape)
     Rasters.coverage!(cvg,shape;scale=1)
-    return sum(cvg)
+    return dot(cvg,raster_wo_missings)/sum(cvg)
 end
 
 pa_pm25_emis_tif = Raster("data/pa_pm25_emissions_data.tif")
