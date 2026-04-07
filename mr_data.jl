@@ -69,8 +69,8 @@ function map_pop_group(g)
 end
 
 pop_tall.age_group = map_pop_group.(pop_tall.age_group)
-pop_tall.population = [pop for pop in pop_tall.population if pop isa Float64 else tryparse(Float64,pop)]
-deaths.rate = tryparse.(Float64,deaths.rate)
+pop_tall.population = [pop isa Float64 ? pop : tryparse(Float64,pop) for pop in pop_tall.population]
+deaths.rate = [death isa Float64 ? death : tryparse(Float64,death) for death in deaths.rate]
 
 pop_grouped = DataFrames.combine(groupby(pop_tall,[:tract,:age_group]), :population => sum => :population)
 
