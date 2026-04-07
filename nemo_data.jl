@@ -1,11 +1,15 @@
 using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra
 using Base.Threads
 
-# this version isn't happy to just work -- might be able to figure something out but for now this'll need to do
-
-function mean_raster_in_shape(cvg,raster_wo_missings,shape)
-    Rasters.coverage!(cvg,shape;scale=1)
-    return dot(cvg,raster_wo_missings)/sum(cvg)
+function mean_raster_in_shape(raster,shape)
+    #Rasters.coverage!(cvg,shape;scale=1)
+    #return dot(cvg,raster_wo_missings)/sum(cvg)
+    zonal_avg = Rasters.zonal(x -> mean(skipmissing(x)), raster; of=shape, boundary=:touches)
+    if ismissing(zonal_avg)
+        return 0.0
+    else
+        return zonal_avg
+    end
 end
 
 pa_pm25_emis_tif = Raster("data/pa_pm25_emissions_data.tif")
@@ -15,17 +19,17 @@ y_range = range(1.272233114741428e6, -176652.4464065095, size(npy_data, 1))
 
 pa_pm25_emis = Raster(npy_data,(Y(y_range),X(x_range));crs = crs(pa_pm25_emis_tif))
 
-replace_missing!(pa_pm25_emis, 0.0)
 replace!(pa_pm25_emis, NaN => 0.0)
+coalesce.(pa_pm25_emis, 0.0)
 
 pa_census_tracts_up = GeoDataFrames.read("data/census_tracts/cb_2015_42_tract_500k.shp")
 pa_census_tracts = GeoDataFrames.reproject(pa_census_tracts_up, GeoFormatTypes.EPSG(4269), GeoFormatTypes.EPSG(2272))
 
-pa_census_tracts[!,:mean_emis] .= 0.0
 geoms = pa_census_tracts.geometry
+pa_census_tracts[!,:mean_emis] = Vector{Union{Missing, Float64}}(undef, length(geoms))
 
 @threads for i in eachindex(geoms)
-    pa_census_tracts[i, :mean_emis] = mean_raster_in_shape(pa_pm25_emis, geoms[i])
+    pa_census_tracts[i,:mean_emis] = mean_raster_in_shape(pa_pm25_emis, geoms[i])
 end
 
 #=plot!(ax, pa_pm25_emis; colormap = :plasma, colorscale=log10, nan_color = (:white, 0))
@@ -34,6 +38,9 @@ poly!(ax, pa_census_tracts.geometry; color=(:white,0), strokecolor=:black,stroke
 
 fig=#
 
+
+replace!(pa_census_tracts[!,:mean_emis], NaN => 0.0)
+coalesce.(pa_census_tracts[!,:mean_emis], 0.0)
 
 fig = Figure()
 ax = Axis(fig[1,1],aspect=DataAspect())
@@ -47,7 +54,6 @@ poly!(ax,
 )
 
 fig
-
 #=
 pa_pm25_emis_nans = npzread("data/pa_pm25_emissions_data.npy")'
 
