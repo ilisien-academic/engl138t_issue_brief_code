@@ -38,7 +38,7 @@ POP_AGE_GROUPS = POP_PREFIX .* [
 pop = CSV.read("data/pop_and_death_data/pop.csv",DataFrame)
 deaths = CSV.read("data/pop_and_death_data/death.csv",DataFrame)
 
-deaths.age_group = replace.(deaths.age_group, "\r" => " ", "\"" => "")
+deaths.age_group = replace.(deaths.age_group, "\n" => "", "\r" => " ", "\"" => "")
 deaths.age_group = strip.(deaths.age_group)
 
 pop_grouped.age_group = replace.(pop_grouped.age_group, "\"" => "")
