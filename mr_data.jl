@@ -90,7 +90,7 @@ pop_and_deaths = DataFrames.combine(
     [:pop_age_group, :population] => ((ag, p) -> sum(last(p[ag .== g]) for g in unique(ag))) => :population
 )
 
-
+println(DataFrames.combine(groupby(pop_tall, :tract), :population => sum => :total))
 
 
 
