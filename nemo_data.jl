@@ -38,8 +38,6 @@ emis_means = [pyconvert(Float64, em["mean"]) for em in PY_emis_mean]
 pa_census_tracts[!,:mean_emis] = emis_means
 
 
-
-
 #geoms = pa_census_tracts.geometry
 #pa_census_tracts[!,:mean_emis] .= 0.0
 
