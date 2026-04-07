@@ -5,9 +5,8 @@ fig = Figure()
 ax = Axis(fig[1,1],aspect=DataAspect())
 
 function mean_raster_in_shape(cvg,raster_wo_missings,shape)
-    print(shape)
     Rasters.coverage!(cvg,shape;scale=1)
-    return sum(cvg) #dot(cvg,raster_wo_missings)/sum(cvg)
+    return dot(cvg,raster_wo_missings)/sum(cvg)
 end
 
 pa_pm25_emis_tif = Raster("data/pa_pm25_emissions_data.tif")
