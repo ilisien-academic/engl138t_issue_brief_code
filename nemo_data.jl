@@ -50,6 +50,7 @@ Colorbar(fig[1, 2],
     colorrange = clims,
 )=#
 
+#=
 pa_pm25_emis_nans = npzread("data/pa_pm25_emissions_data.npy")'
 
 pa_pm25_emis = ifelse.(isnan.(pa_pm25_emis_nans), missing, pa_pm25_emis_nans)
@@ -60,4 +61,21 @@ ax.yreversed = true
 
 heatmap!(pa_pm25_emis,colorscale=log10)
 
+fig=#
+
+pa_pm25_emis_tif = Raster("data/pa_pm25_emissions_data.tif")
+npy_data = npzread("data/pa_pm25_emissions_data.npy")
+
+x_range = range(1.0196644610284471e6, 2.9405851371205086e6, size(npy_data, 2))
+y_range = range(1.272233114741428e6, -176652.4464065095, size(npy_data, 1))
+
+pa_pm25_emis = Raster(
+    npy_data,
+    (X(x_range), Y(y_range));
+    crs = crs(pa_pm25_emis_tif)
+)
+
+fig = Figure()
+ax = Axis(fig[1,1], aspect=DataAspect())
+plot!(ax, pa_pm25_emis; colormap=:plasma, colorscale=log10, nan_color=(:white,0))
 fig
