@@ -1,6 +1,6 @@
 ENV["JULIA_PYTHONCALL_EXE"] = "env/scripts/python.exe"
 
-using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra, PythonCall
+using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra, PythonCall, GeoJSON
 using Base.Threads
 #=
 function mean_raster_in_shape(raster,shape)
@@ -27,12 +27,17 @@ coalesce.(pa_pm25_emis, 0.0)
 pa_census_tracts_up = GeoDataFrames.read("data/census_tracts/cb_2015_42_tract_500k.shp")
 pa_census_tracts = GeoDataFrames.reproject(pa_census_tracts_up, GeoFormatTypes.EPSG(4269), GeoFormatTypes.EPSG(2272))
 
-geoms = pa_census_tracts.geometry
-pa_census_tracts[!,:mean_emis] .= 0.0
+write("data/tmp_emissions.tif", pa_pm25_emis)
 
-@threads for i in eachindex(geoms)
-    pa_census_tracts[i,:mean_emis] = mean_raster_in_shape(pa_pm25_emis, geoms[i])
-end
+
+
+
+#geoms = pa_census_tracts.geometry
+#pa_census_tracts[!,:mean_emis] .= 0.0
+
+#@threads for i in eachindex(geoms)
+#    pa_census_tracts[i,:mean_emis] = mean_raster_in_shape(pa_pm25_emis, geoms[i])
+#end
 
 #=plot!(ax, pa_pm25_emis; colormap = :plasma, colorscale=log10, nan_color = (:white, 0))
 
