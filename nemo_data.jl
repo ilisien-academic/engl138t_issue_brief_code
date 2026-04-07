@@ -66,12 +66,14 @@ fig=#
 pa_pm25_emis_tif = Raster("data/pa_pm25_emissions_data.tif")
 npy_data = npzread("data/pa_pm25_emissions_data.npy")
 
-x_range = range(1.0196644610284471e6, 2.9405851371205086e6, size(npy_data, 1))
-y_range = range(1.272233114741428e6, -176652.4464065095, size(npy_data, 2))
+x_range = range(1.0196644610284471e6, 2.9405851371205086e6, size(npy_data, 2))
+
+y_range = range(1.272233114741428e6, -176652.4464065095, size(npy_data, 1))
+
 
 pa_pm25_emis = Raster(
     npy_data,
-    (X(x_range), Y(y_range));
+    (Y(y_range),X(x_range));
     crs = crs(pa_pm25_emis_tif)
 )
 
