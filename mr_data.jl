@@ -40,5 +40,7 @@ deaths = CSV.read("data/pop_and_death_data/death.csv",DataFrame)
 
 pop.Geography = [i[2] for i in split.(pop.Geography,"S")]
 
-pop_tall = stack(pop, POP_AGE_GROUPS; variable_name = :pop_age_group, value_name = :population)
+pop_tall = DataFrames.stack(pop, POP_AGE_GROUPS; variable_name = :pop_age_group, value_name = :population)
+
+
 
