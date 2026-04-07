@@ -24,8 +24,6 @@ pa_census_tracts = GeoDataFrames.reproject(pa_census_tracts_up, GeoFormatTypes.E
 pa_census_tracts[!,:mean_emis] .= 0.0
 geoms = pa_census_tracts.geometry
 
-
-
 @threads for i in eachindex(geoms)
     pa_census_tracts[i, :mean_emis] = mean_raster_in_shape(pa_pm25_emis, geoms[i])
 end
