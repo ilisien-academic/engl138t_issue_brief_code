@@ -53,7 +53,7 @@ poly!(ax,
       strokewidth = 0.0
 )
 
-fig
+display(fig)
 #=
 pa_pm25_emis_nans = npzread("data/pa_pm25_emissions_data.npy")'
 
