@@ -66,7 +66,7 @@ deaths = CSV.read("data/pop_and_death_data/death.csv", DataFrame)
 deaths.age_group = replace.(deaths.age_group, "\n" => "", "\r" => " ", "\"" => "")
 deaths.age_group = strip.(deaths.age_group)
 deaths.tract = string.(deaths.tract)
-pop_tall.population = [isnothing(v) || ismissing(v) ? missing : v isa Float64 ? v : tryparse(Float64, string(v)) for v in pop_tall.population]
+deaths.rate = [isnothing(v) || ismissing(v) ? missing : v isa Float64 ? v : tryparse(Float64, string(v)) for v in deaths.ray]
 
 pop.Geography = [i[2] for i in split.(pop.Geography, "S")]
 
