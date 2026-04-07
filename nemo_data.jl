@@ -1,9 +1,6 @@
 using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra
 using Base.Threads
 
-fig = Figure()
-ax = Axis(fig[1,1],aspect=DataAspect())
-
 function mean_raster_in_shape(cvg,raster_wo_missings,shape)
     Rasters.coverage!(cvg,shape;scale=1)
     return dot(cvg,raster_wo_missings)/sum(cvg)
@@ -30,13 +27,13 @@ buffers = [similar(pa_pm25_emis, Float64) for _ in 1:nthreads()+1]
     pa_census_tracts[i,:mean_emis] = mean_raster_in_shape(cvg, pa_pm25_emis, geoms[i])
 end
 
-plot!(ax, pa_pm25_emis; colormap = :plasma, colorscale=log10, nan_color = (:white, 0))
+#=plot!(ax, pa_pm25_emis; colormap = :plasma, colorscale=log10, nan_color = (:white, 0))
 
 poly!(ax, pa_census_tracts.geometry; color=(:white,0), strokecolor=:black,strokewidth=0.5)
 
-fig
+fig=#
 
-#=
+
 fig = Figure()
 ax = Axis(fig[1,1],aspect=DataAspect())
 
@@ -55,7 +52,7 @@ poly!(ax,
 Colorbar(fig[1, 2],
     colormap = :plasma,
     colorrange = clims,
-)=#
+)
 
 #=
 pa_pm25_emis_nans = npzread("data/pa_pm25_emissions_data.npy")'
