@@ -1,8 +1,11 @@
 using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra
 using Base.Threads
 
+fig = Figure()
+ax = Axis(fig[1,1],aspect=DataAspect())
+
 function mean_raster_in_shape(cvg,raster_wo_missings,shape)
-    cvg = Rasters.coverage(shape;to=cvg,scale=25,progress=false,verbose=false)
+    Rasters.coverage!(cvg,shape;scale=10)
     return dot(cvg,raster_wo_missings)/sum(cvg)
 end
 
@@ -17,14 +20,12 @@ pa_census_tracts_up = GeoDataFrames.read("data/census_tracts/cb_2015_42_tract_50
 pa_census_tracts = GeoDataFrames.reproject(pa_census_tracts_up, GeoFormatTypes.EPSG(4269), GeoFormatTypes.EPSG(2272))
 
 pa_census_tracts[!,:mean_emis] .= 0.0
-cvg = similar(pa_pm25_emis, Float64)
+cvg = similar(pa_pm25_emis, Float16)
 
 for i in eachindex(pa_census_tracts[!,:geometry])
     pa_census_tracts[i,:mean_emis] = mean_raster_in_shape(cvg,pa_pm25_emis,pa_census_tracts[i,:geometry])
+    GC.gc()
 end
-
-fig = Figure()
-ax = Axis(fig[1,1],aspect=DataAspect())
 
 plot!(ax, pa_pm25_emis; colormap = :plasma, colorscale=log10, nan_color = (:white, 0))
 
