@@ -15,8 +15,8 @@ y_range = range(1.272233114741428e6, -176652.4464065095, size(npy_data, 1))
 
 pa_pm25_emis = Raster(npy_data,(Y(y_range),X(x_range));crs = crs(pa_pm25_emis_tif))
 
-replace!(pa_pm25_emis, NaN => 0)
-coalesce!(pa_pm25_emis, 0)
+replace_missing!(pa_pm25_emis, 0.0)
+replace!(pa_pm25_emis, NaN => 0.0)
 
 pa_census_tracts_up = GeoDataFrames.read("data/census_tracts/cb_2015_42_tract_500k.shp")
 pa_census_tracts = GeoDataFrames.reproject(pa_census_tracts_up, GeoFormatTypes.EPSG(4269), GeoFormatTypes.EPSG(2272))
