@@ -2,7 +2,7 @@ using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statis
 
 function mean_raster_in_shape(raster,shape)
     cvg = Rasters.coverage(shape;to=raster,threaded,scale=25)
-    return cdot()
+    return cdot(cvg,)
 
 pa_pm25_emis = Raster("data/pa_pm25_emissions_data.tif")
 
