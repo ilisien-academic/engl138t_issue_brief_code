@@ -23,7 +23,7 @@ ax = Axis(fig[1,1],aspect=DataAspect())
 
 plot!(ax, pa_pm25_emis; colormap = :plasma, nan_color = (:white, 0))
 
-poly!(ax, pa_census_tracts.geometry; color=(:white,0),strokecolor=:black,strokewidth=0.5)
+poly!(ax, pa_census_tracts.geometry; color=(:white,0), strokecolor=:black,strokewidth=0.5)
 
 fig
 
