@@ -2,7 +2,7 @@ ENV["JULIA_PYTHONCALL_EXE"] = "env/scripts/python.exe"
 
 using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra, PythonCall
 using Base.Threads
-
+#=
 function mean_raster_in_shape(raster,shape)
     #Rasters.coverage!(cvg,shape;scale=1)
     #return dot(cvg,raster_wo_missings)/sum(cvg)
@@ -12,7 +12,7 @@ function mean_raster_in_shape(raster,shape)
     else
         return zonal_avg
     end
-end
+end=#
 
 pa_pm25_emis_tif = Raster("data/pa_pm25_emissions_data.tif")
 npy_data = npzread("data/pa_pm25_emissions_data.npy")
