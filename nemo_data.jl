@@ -37,21 +37,16 @@ fig=#
 fig = Figure()
 ax = Axis(fig[1,1],aspect=DataAspect())
 
-clims = (quantile(valid_emis, 0.02), quantile(valid_emis, 0.98))
-
 poly!(ax,
-    pa_census_tracts.geometry;
-    color = pa_census_tracts.mean_emis,
-    colormap = :plasma,
-    colorrange = clims,
-    strokecolor = :white,
-    strokewidth = 0.3
+      pa_census_tracts.geometry;
+      color = pa_census_tracts.mean_emis,
+      colormap = :plasma,
+      colorrange = clims,
+      strokecolor = :white,
+      strokewidth = 0.3
 )
 
-Colorbar(fig[1, 2],
-    colormap = :plasma,
-    colorrange = clims,
-)
+Colorbar(fig[1, 2], colormap = :plasma)
 
 #=
 pa_pm25_emis_nans = npzread("data/pa_pm25_emissions_data.npy")'
