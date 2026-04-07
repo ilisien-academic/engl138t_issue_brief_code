@@ -20,12 +20,14 @@ pa_pm25_emis = Raster(npy_data,(Y(y_range),X(x_range));crs = crs(pa_pm25_emis_ti
 pa_census_tracts_up = GeoDataFrames.read("data/census_tracts/cb_2015_42_tract_500k.shp")
 pa_census_tracts = GeoDataFrames.reproject(pa_census_tracts_up, GeoFormatTypes.EPSG(4269), GeoFormatTypes.EPSG(2272))
 
-pa_census_tracts[!,:mean_emis] .= 0.0
-cvg = similar(pa_pm25_emis, Float64)
+geoms = pa_census_tracts.geometry
+mean_emis = pa_census_tracts.mean_emis
 
-for i in eachindex(pa_census_tracts[!,:geometry])
-    pa_census_tracts[i,:mean_emis] = mean_raster_in_shape(cvg,pa_pm25_emis,pa_census_tracts[i,:geometry])
-    GC.gc()
+buffers = [similar(pa_pm25_emis, Float64) for _ in 1:nthreads()]
+
+@threads for i in eachindex(geoms)
+    cvg = buffers[threadid()]
+    mean_emis[i] = mean_raster_in_shape(cvg, pa_pm25_emis, geoms[i])
 end
 
 plot!(ax, pa_pm25_emis; colormap = :plasma, colorscale=log10, nan_color = (:white, 0))
