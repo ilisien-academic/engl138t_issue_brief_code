@@ -1,8 +1,8 @@
 using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra
 
-function mean_raster_in_shape(raster,shape)
+function mean_raster_in_shape(raster_wo_missings,shape)
     cvg = Rasters.coverage(shape;to=raster,threaded,scale=25)
-    return cdot(cvg,)
+    return cdot(cvg,raster_wo_missings)/sum(cvg)
 
 pa_pm25_emis = Raster("data/pa_pm25_emissions_data.tif")
 
