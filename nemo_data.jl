@@ -4,7 +4,7 @@ using Base.Threads
 function mean_raster_in_shape(raster,shape)
     #Rasters.coverage!(cvg,shape;scale=1)
     #return dot(cvg,raster_wo_missings)/sum(cvg)
-    Rasters.zonal(mean, raster; of=shape, boundary=:touches)
+    Rasters.zonal(x -> mean(skipmissing(x)), raster; of=shape, boundary=:touches)
 end
 
 pa_pm25_emis_tif = Raster("data/pa_pm25_emissions_data.tif")
