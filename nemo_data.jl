@@ -28,8 +28,8 @@ pa_census_tracts_up = GeoDataFrames.read("data/census_tracts/cb_2015_42_tract_50
 pa_census_tracts = GeoDataFrames.reproject(pa_census_tracts_up, GeoFormatTypes.EPSG(4269), GeoFormatTypes.EPSG(2272))
 
 write("data/tmp_emissions.tif", pa_pm25_emis)
-GeoJSON.write(pa_census_tracts)
-
+tmp_tracts_string = GeoJSON.write(pa_census_tracts)
+PYgpd = 
 
 
 #geoms = pa_census_tracts.geometry
