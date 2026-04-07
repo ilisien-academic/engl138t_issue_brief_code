@@ -23,7 +23,6 @@ PYee = pyimport("exactextract")
 
 PY_tracts = PYgpd.read_file(tmp_tracts_string, driver="GeoJSON")
 PY_emis_mean = PYee.exact_extract("data/tmp_emissions.tiff",PY_tracts, pylist(["mean"]))
-print(PY_emis_mean)
 emis_means = [pyconvert(Float64, em["properties"]["mean"]) for em in PY_emis_mean]
 pa_census_tracts[!,:mean_emis] = emis_means
 
@@ -38,5 +37,7 @@ poly!(ax,
       color = pa_census_tracts.mean_emis,
       colormap = :plasma,
 )
+
+print(pa_census_tracts)
 
 display(fig)
