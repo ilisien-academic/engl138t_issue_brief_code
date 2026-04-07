@@ -1,6 +1,6 @@
 using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra
 using Base.Threads
-#=
+
 function mean_raster_in_shape(cvg,raster_wo_missings,shape)
     Rasters.coverage!(cvg,shape;scale=25)
     return dot(cvg,raster_wo_missings)/sum(cvg)
@@ -8,7 +8,10 @@ end
 
 pa_pm25_emis_tif = Raster("data/pa_pm25_emissions_data.tif")
 npy_data = npzread("data/pa_pm25_emissions_data.npy")
-pa_pm25_emis = Raster(npy_data', dims(pa_pm25_emis_tif))
+x_range = range(1.0196644610284471e6, 2.9405851371205086e6, size(npy_data, 2))
+y_range = range(1.272233114741428e6, -176652.4464065095, size(npy_data, 1))
+
+pa_pm25_emis = Raster(npy_data,(Y(y_range),X(x_range));crs = crs(pa_pm25_emis_tif))
 
 pa_census_tracts_up = GeoDataFrames.read("data/census_tracts/cb_2015_42_tract_500k.shp")
 pa_census_tracts = GeoDataFrames.reproject(pa_census_tracts_up, GeoFormatTypes.EPSG(4269), GeoFormatTypes.EPSG(2272))
@@ -28,7 +31,7 @@ plot!(ax, pa_pm25_emis; colormap = :plasma, colorscale=log10, nan_color = (:whit
 poly!(ax, pa_census_tracts.geometry; color=(:white,0), strokecolor=:black,strokewidth=0.5)
 
 fig
-=#
+
 #=
 fig = Figure()
 ax = Axis(fig[1,1],aspect=DataAspect())
@@ -62,23 +65,3 @@ ax.yreversed = true
 heatmap!(pa_pm25_emis,colorscale=log10)
 
 fig=#
-
-pa_pm25_emis_tif = Raster("data/pa_pm25_emissions_data.tif")
-npy_data = npzread("data/pa_pm25_emissions_data.npy")
-
-x_range = range(1.0196644610284471e6, 2.9405851371205086e6, size(npy_data, 2))
-
-y_range = range(1.272233114741428e6, -176652.4464065095, size(npy_data, 1))
-
-
-pa_pm25_emis = Raster(
-    npy_data,
-    (Y(y_range),X(x_range));
-    crs = crs(pa_pm25_emis_tif)
-)
-
-fig = Figure()
-ax = Axis(fig[1,1], aspect=DataAspect())
-plot!(ax, pa_pm25_emis; colormap=:plasma, colorscale=log10, nan_color=(:white,0))
-poly!(ax, pa_census_tracts.geometry; color=(:white,0), strokecolor=:black, strokewidth=0.5)
-fig
