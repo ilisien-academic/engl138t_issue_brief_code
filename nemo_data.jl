@@ -41,7 +41,6 @@ poly!(ax,
       pa_census_tracts.geometry;
       color = pa_census_tracts.mean_emis,
       colormap = :plasma,
-      colorrange = (0.0,1.0),
       strokecolor = :white,
       strokewidth = 0.3
 )
