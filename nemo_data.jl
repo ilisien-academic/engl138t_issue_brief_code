@@ -4,7 +4,12 @@ using Base.Threads
 function mean_raster_in_shape(raster,shape)
     #Rasters.coverage!(cvg,shape;scale=1)
     #return dot(cvg,raster_wo_missings)/sum(cvg)
-    return Rasters.zonal(x -> mean(skipmissing(x)), raster; of=shape, boundary=:touches)
+    zonal_avg = Rasters.zonal(x -> mean(skipmissing(x)), raster; of=shape, boundary=:touches)
+    if ismissing(zonal_avg)
+        return 0.0
+    else
+        return zonal_avg
+    end
 end
 
 pa_pm25_emis_tif = Raster("data/pa_pm25_emissions_data.tif")
@@ -42,7 +47,7 @@ ax = Axis(fig[1,1],aspect=DataAspect())
 
 poly!(ax,
       pa_census_tracts.geometry;
-      color = skipmissing(pa_census_tracts.mean_emis),
+      color = pa_census_tracts.mean_emis,
       colormap = :plasma,
       strokecolor = :white,
       strokewidth = 0.0
