@@ -76,10 +76,7 @@ deaths.rate = [death isa Float64 ? death : missing for death in deaths.rate]
 
 pop_grouped = DataFrames.combine(groupby(pop_tall,[:tract,:age_group]), :population => sum => :population)
 
-println(eltype(deaths.tract))
-println(eltype(pop_grouped.tract))
-println(first(deaths.tract, 2))
-println(first(pop_grouped.tract, 2))
+deaths.tract = string.(deaths.tract)
 
 pop_and_deaths = innerjoin(deaths, pop_grouped, on=[:tract, :age_group])
 
