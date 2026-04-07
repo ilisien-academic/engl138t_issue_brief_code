@@ -69,7 +69,7 @@ function map_pop_group(g)
 end
 
 pop_tall.age_group = map_pop_group.(pop_tall.age_group)
-pop_tall.population = parse.(Int,pop_tall.population)
+pop_tall.population = parse.(Float64,pop_tall.population)
 deaths.rate = parse.(Float,deaths.rate)
 
 
