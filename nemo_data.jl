@@ -21,7 +21,6 @@ pa_census_tracts_up = GeoDataFrames.read("data/census_tracts/cb_2015_42_tract_50
 pa_census_tracts = GeoDataFrames.reproject(pa_census_tracts_up, GeoFormatTypes.EPSG(4269), GeoFormatTypes.EPSG(2272))
 
 geoms = pa_census_tracts.geometry
-mean_emis = pa_census_tracts.mean_emis
 
 buffers = [similar(pa_pm25_emis, Float64) for _ in 1:nthreads()]
 
