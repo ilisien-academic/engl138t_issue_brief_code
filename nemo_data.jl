@@ -27,7 +27,7 @@ buffers = [similar(pa_pm25_emis, Float64) for _ in 1:nthreads()]
 
 @threads for i in eachindex(geoms)
     cvg = buffers[threadid()]
-    mean_emis[i] = mean_raster_in_shape(cvg, pa_pm25_emis, geoms[i])
+    pa_census_tracts[i,:mean_emis] = mean_raster_in_shape(cvg, pa_pm25_emis, geoms[i])
 end
 
 plot!(ax, pa_pm25_emis; colormap = :plasma, colorscale=log10, nan_color = (:white, 0))
