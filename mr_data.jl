@@ -46,9 +46,11 @@ pop_tall = DataFrames.stack(pop, POP_AGE_GROUPS; variable_name = :age_group, val
 
 rename!(pop_tall, :Geography => :tract)
 
-function map_pop_group(g)
-    if occursin("Under 5", g)
+function map_death_group(g)
+    if g == "Under 1" || g == "1-4"
         return "Under 5"
+    else
+        return g
     elseif occursin("5 to 9", g) || occursin("10 to 14", g)
         return "5-14"
     elseif occursin("15 to 19", g) || occursin("20 to 24", g)
