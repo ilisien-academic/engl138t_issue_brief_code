@@ -34,6 +34,9 @@ poly!(ax, pa_census_tracts.geometry; color=(:white,0), strokecolor=:black,stroke
 fig=#
 
 
+replace!(pa_census_tracts[!,:mean_emis], NaN => 0.0)
+coalesce.(pa_census_tracts[!,:mean_emis], 0.0)
+
 fig = Figure()
 ax = Axis(fig[1,1],aspect=DataAspect())
 
