@@ -1,9 +1,11 @@
 using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra
 using Base.Threads
 
-function mean_raster_in_shape(cvg,raster_wo_missings,shape)
-    Rasters.coverage!(cvg,shape;scale=5)
-    return dot(cvg,raster_wo_missings)/sum(cvg)
+function mean_raster_in_shape(raster, shape)
+    cropped = crop(raster; to=shape, pad=true)
+    cvg = Rasters.coverage(shape; to=cropped, scale=10)
+    masked_raster = mask(cropped; with=shape)
+    return sum(cvg .* masked_raster) / sum(cvg)
 end
 
 pa_pm25_emis_tif = Raster("data/pa_pm25_emissions_data.tif")
@@ -26,7 +28,7 @@ buffers = [similar(pa_pm25_emis, Float64) for _ in 1:nthreads()+1]
 @threads for i in eachindex(geoms)
     println(threadid())
     cvg = buffers[threadid()]
-    pa_census_tracts[i,:mean_emis] = mean_raster_in_shape(cvg, pa_pm25_emis, geoms[i])
+    pa_census_tracts[i,:mean_emis] = mean_raster_in_shape(pa_pm25_emis, geoms[i])
 end
 
 #=plot!(ax, pa_pm25_emis; colormap = :plasma, colorscale=log10, nan_color = (:white, 0))
