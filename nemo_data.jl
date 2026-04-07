@@ -19,7 +19,7 @@ pa_census_tracts = GeoDataFrames.reproject(pa_census_tracts_up, GeoFormatTypes.E
 pa_census_tracts[!,:mean_emis] .= 0.0
 cvg = pa_pm25_emis
 
-Threads.@threads for i in eachindex(pa_census_tracts[!,:geometry])
+for i in eachindex(pa_census_tracts[!,:geometry])
     pa_census_tracts[i,:mean_emis] = mean_raster_in_shape(cvg,pa_pm25_emis,pa_census_tracts[i,:geometry])
 end
 
