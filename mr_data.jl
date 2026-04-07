@@ -70,6 +70,9 @@ function map_death_group(g)
     end
 end
 
+println(repr.(unique(deaths.age_group)))
+println(repr.(unique(pop_grouped.age_group)))
+
 pop_tall.age_group = map_pop_group.(pop_tall.age_group)
 pop_tall.population = [v isa Float64 ? v : missing for v in pop_tall.population]
 deaths.rate = [death isa Float64 ? death : missing for death in deaths.rate]
