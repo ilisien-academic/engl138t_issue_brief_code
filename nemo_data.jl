@@ -1,4 +1,4 @@
-using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra
+using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra, PythonCall
 using Base.Threads
 
 function mean_raster_in_shape(raster,shape)
