@@ -30,6 +30,10 @@ pa_census_tracts = GeoDataFrames.reproject(pa_census_tracts_up, GeoFormatTypes.E
 write("data/tmp_emissions.tif", pa_pm25_emis)
 tmp_tracts_string = GeoJSON.write(pa_census_tracts)
 PYgpd = pyimport("geopandas")
+PYee = pyimport("exactextract")
+
+
+
 
 
 #geoms = pa_census_tracts.geometry
