@@ -1,16 +1,7 @@
-using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra
-using Base.Threads
+ENV["JULIA_PYTHONCALL_EXE"] = "env/scripts/python.exe"
 
-function mean_raster_in_shape(raster,shape)
-    #Rasters.coverage!(cvg,shape;scale=1)
-    #return dot(cvg,raster_wo_missings)/sum(cvg)
-    zonal_avg = Rasters.zonal(x -> mean(skipmissing(x)), raster; of=shape, boundary=:touches)
-    if ismissing(zonal_avg)
-        return 0.0
-    else
-        return zonal_avg
-    end
-end
+using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra, PythonCall, GeoJSON, DataFrames
+using Base.Threads
 
 pa_pm25_emis_tif = Raster("data/pa_pm25_emissions_data.tif")
 npy_data = npzread("data/pa_pm25_emissions_data.npy")
@@ -25,19 +16,16 @@ coalesce.(pa_pm25_emis, 0.0)
 pa_census_tracts_up = GeoDataFrames.read("data/census_tracts/cb_2015_42_tract_500k.shp")
 pa_census_tracts = GeoDataFrames.reproject(pa_census_tracts_up, GeoFormatTypes.EPSG(4269), GeoFormatTypes.EPSG(2272))
 
-geoms = pa_census_tracts.geometry
-pa_census_tracts[!,:mean_emis] = Vector{Union{Missing, Float64}}(undef, length(geoms))
+# horrendous workaround but it works!
+Rasters.write("data/tmp_emissions.tiff", pa_pm25_emis, force=true)
+tmp_tracts_string = GeoJSON.write(pa_census_tracts)
+PYgpd = pyimport("geopandas")
+PYee = pyimport("exactextract")
 
-@threads for i in eachindex(geoms)
-    pa_census_tracts[i,:mean_emis] = mean_raster_in_shape(pa_pm25_emis, geoms[i])
-end
-
-#=plot!(ax, pa_pm25_emis; colormap = :plasma, colorscale=log10, nan_color = (:white, 0))
-
-poly!(ax, pa_census_tracts.geometry; color=(:white,0), strokecolor=:black,strokewidth=0.5)
-
-fig=#
-
+PY_tracts = PYgpd.read_file(tmp_tracts_string, driver="GeoJSON")
+PY_emis_mean = PYee.exact_extract("data/tmp_emissions.tiff",PY_tracts, pylist(["mean"]))
+emis_means = [pyconvert(Float64, em["properties"]["mean"]) for em in PY_emis_mean]
+pa_census_tracts[!,:mean_emis] = emis_means
 
 replace!(pa_census_tracts[!,:mean_emis], NaN => 0.0)
 coalesce.(pa_census_tracts[!,:mean_emis], 0.0)
@@ -49,20 +37,8 @@ poly!(ax,
       pa_census_tracts.geometry;
       color = pa_census_tracts.mean_emis,
       colormap = :plasma,
-      strokecolor = :white,
-      strokewidth = 0.0
 )
 
-fig
-#=
-pa_pm25_emis_nans = npzread("data/pa_pm25_emissions_data.npy")'
+print(pa_census_tracts)
 
-pa_pm25_emis = ifelse.(isnan.(pa_pm25_emis_nans), missing, pa_pm25_emis_nans)
-
-fig = Figure()
-ax = Axis(fig[1,1],aspect=DataAspect())
-ax.yreversed = true
-
-heatmap!(pa_pm25_emis,colorscale=log10)
-
-fig=#
+display(fig)
