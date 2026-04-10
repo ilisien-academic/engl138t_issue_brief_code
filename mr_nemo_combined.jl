@@ -1,4 +1,4 @@
-using DataFrames, CSV
+using CSV, DataFrames
 
 mr = CSV.read("data/mortality_rates.csv",Dataframe)
 pm = CSV.read("data/pm25s.csv",Dataframe)
