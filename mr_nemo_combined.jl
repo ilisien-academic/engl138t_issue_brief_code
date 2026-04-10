@@ -28,6 +28,7 @@ fig = Figure()
 ax = Axis(fig[1,1],aspect=DataAspect())
 
 hidespines!(ax)
+hidedecorations!(ax)
 
 poly!(ax,
       mrpm.geometry;
