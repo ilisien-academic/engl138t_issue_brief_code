@@ -95,7 +95,7 @@ pop_and_deaths = DataFrames.combine(
 CSV.write("data/pop_and_death_data/pop_and_deaths.csv", pop_and_deaths)
 
 function get_mr(age_specific_rate, population)
-    return dot(population / sum(population), age_specific_rate) # normalized population dotted with mortality rate by age group, adds up to total mortality rate
+    return dot(population / sum(population), age_specific_rate) # normalized population dotted with mortality rate by age group adds up to total mortality rate
 end
 
 mortality_rate = DataFrames.combine(groupby(pop_and_deaths, :tract), [:rate, :population] => get_mr => :mortality_rate)
