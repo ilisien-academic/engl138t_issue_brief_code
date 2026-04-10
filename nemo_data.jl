@@ -1,6 +1,6 @@
 ENV["JULIA_PYTHONCALL_EXE"] = "env/scripts/python.exe"
 
-using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra, PythonCall, GeoJSON, DataFrames, CSV
+using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra, PythonCall, GeoJSON, DataFrames, CSV, Arrow
 using Base.Threads
 
 pa_pm25_emis_tif = Raster("data/pa_pm25_emissions_data.tif")
@@ -39,6 +39,7 @@ poly!(ax,
       colormap = :plasma,
 )
 
-CSV.write("data/pm25s.csv", pa_census_tracts[:,[:GEOID, :geometry, :mean_emis]])
+
+Arrow.write("data/pm25s.arrow", pa_census_tracts[:,[:GEOID, :geometry, :mean_emis])
 
 display(fig)
