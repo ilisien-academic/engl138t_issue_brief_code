@@ -39,6 +39,6 @@ poly!(ax,
       colormap = :plasma,
 )
 
-CSV.write("data/pm25s.csv", pa_census_tracts[])
+CSV.write("data/pm25s.csv", pa_census_tracts[:,[:GEOID, :geometry, :mean_emis]])
 
 display(fig)
