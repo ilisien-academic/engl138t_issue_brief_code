@@ -1,5 +1,7 @@
 using CSV, DataFrames, CairoMakie, GeoDataFrames
 
+
+
 RR_AP = 1.14 # hardcoded from Lepeule
 PER_HOW_MANY_PEOPLE = 1000
 
@@ -7,7 +9,7 @@ mr = CSV.read("data/mortality_rates.csv",DataFrame)
 pm = GeoDataFrames.read("data/pm25s.gpkg")
 
 rename!(pm, :GEOID => :tract)
-transform!(mr, :tract => String => :tract)
+transform!(mr, :tract =>  => :tract)
 
 mrpm = rightjoin(pm, mr; on = :tract)
 
