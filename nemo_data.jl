@@ -39,6 +39,6 @@ poly!(ax,
       colormap = :plasma,
 )
 
-GeoDataFrames.write("data/pm25s.gpkg", pa_census_tracts)
+GeoDataFrames.write("data/pm25s.gpkg", pa_census_tracts[:,[:GEOID, :geometry, :mean_emis]])
 
 display(fig)
