@@ -1,10 +1,10 @@
-using CSV, DataFrames, CairoMakie
+using CSV, DataFrames, CairoMakie, Arrow
 
 RR_AP = 1.14 # hardcoded from Lepeule
 PER_HOW_MANY_PEOPLE = 1000
 
 mr = CSV.read("data/mortality_rates.csv",DataFrame)
-pm = CSV.read("data/pm25s.csv",DataFrame)
+pm = DataFrame(Arrow.Table("data/pm25s.arrow"))
 
 rename!(pm, :GEOID => :tract)
 
