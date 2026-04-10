@@ -12,7 +12,7 @@ transform!(mr, :tract => (x -> string.(x)) => :tract)
 mrpm = rightjoin(pm, mr; on = :tract)
 
 function annual_ap_deaths_per_x_people(pm, mr)
-    MR_0 = mr ./ (1 .+ ((mr .* pm .* RR_AP) ./ 10))
+    MR_0 = mr ./ (RR_AP.^(pm ./ 10))
     return PER_HOW_MANY_PEOPLE .* (mr .- MR_0)
 end
 
