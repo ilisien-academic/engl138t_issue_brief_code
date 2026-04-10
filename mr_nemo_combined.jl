@@ -18,6 +18,8 @@ end
 transform!(mrpm, [:mean_emis,:mortality_rate] => annual_ap_deaths_per_x_people => :expected_ann_deaths_per_1000)
 dropmissing!(mrpm)
 
+CSV.write("data/why.csv",mrpm)
+
 fig = Figure()
 ax = Axis(fig[1,1],aspect=DataAspect())
 
