@@ -13,9 +13,6 @@ rename!(pm, :GEOID => :tract)
 transform!(mr, :tract => (x -> string.(x)) => :tract)
 
 mrpm = rightjoin(pm, mr; on = :tract)
-mrpm = rightjoin(mrpm, real_pop; on = :tract)
-
-print(mrpm)
 
 function annual_ap_deaths_per_x_people(pm, mr)
     MR_0 = mr ./ (RR_AP.^(pm ./ 10))
