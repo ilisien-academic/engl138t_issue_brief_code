@@ -3,8 +3,10 @@ using CSV, DataFrames, CairoMakie, GeoDataFrames
 RR_AP = 1.14 # hardcoded from Lepeule
 PER_HOW_MANY_PEOPLE = 1000
 
-mr = CSV.read("data/mortality_rates.csv",DataFrame)
 real_pop = CSV.read("data/real_pop.csv",DataFrame)
+real_pop.tract = real_pop.tract_name
+
+mr = CSV.read("data/mortality_rates.csv",DataFrame)
 pm = GeoDataFrames.read("data/pm25s.gpkg")
 
 rename!(pm, :GEOID => :tract)
