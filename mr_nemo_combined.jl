@@ -15,3 +15,4 @@ function annual_ap_deaths_per_x_people(pm, mr, rr_ap, how_many_people)
 end
 
 adpxp = DataFrames.combine([:rate, :population] => get_mr => :mortality_rate)
+transform!(mrpm, [])
