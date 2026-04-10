@@ -39,7 +39,7 @@ hidedecorations!(ax)
 poly!(ax,
       pa_census_tracts.geometry;
       color = pa_census_tracts.mean_emis,
-      colormap = :plasma,
+      colormap = :magma,
 )
 
 GeoDataFrames.write("data/pm25s.gpkg", pa_census_tracts[:,[:GEOID, :geometry, :mean_emis]])
