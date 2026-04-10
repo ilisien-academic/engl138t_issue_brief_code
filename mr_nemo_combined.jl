@@ -4,7 +4,7 @@ RR_AP = 1.14 # hardcoded from Lepeule
 PER_HOW_MANY_PEOPLE = 1000
 
 real_pop = CSV.read("data/real_pop.csv",DataFrame)
-real_pop.tract = real_pop.tract_name
+real_pop.tract = [i[2] for i in split.(real_pop.tract_name, "S")]
 
 mr = CSV.read("data/mortality_rates.csv",DataFrame)
 pm = GeoDataFrames.read("data/pm25s.gpkg")
