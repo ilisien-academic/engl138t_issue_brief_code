@@ -5,7 +5,7 @@ PER_HOW_MANY_PEOPLE = 1000
 
 mr = CSV.read("data/mortality_rates.csv",DataFrame)
 pm = GeoDataFrames.read("data/pm25s.gpkg")
-
+pm.geometry = [GeometryBasics.polygon(g) for g in mrpm_clean.geometry]
 
 rename!(pm, :GEOID => :tract)
 transform!(mr, :tract => (x -> string.(x)) => :tract)
