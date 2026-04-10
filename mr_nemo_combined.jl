@@ -1,5 +1,10 @@
 using CSV, DataFrames, CairoMakie, GeoDataFrames
 
+function string_to_int(vstrings)
+    return Int.(vstrings)
+end
+
+
 RR_AP = 1.14 # hardcoded from Lepeule
 PER_HOW_MANY_PEOPLE = 1000
 
@@ -7,7 +12,7 @@ mr = CSV.read("data/mortality_rates.csv",DataFrame)
 pm = GeoDataFrames.read("data/pm25s.gpkg")
 
 rename!(pm, :GEOID => :tract)
-transform!(pm, :tract => Int => :tract)
+transform!(pm, :tract =>  string_to_int => :tract)
 
 mrpm = rightjoin(pm, mr; on = :tract)
 
