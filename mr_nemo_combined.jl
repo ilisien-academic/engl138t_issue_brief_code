@@ -38,4 +38,4 @@ poly!(ax,
 
 save("figs/fig1.svg",fig)
 
-transform!(mrpm, [:expected_ann_deaths_per_1000,:population] => ((x,y) -> x .* y) => :expected_ann_deaths)
+transform!(mrpm, [:expected_ann_deaths_per_1000,:population] => ((x,y) -> x .* y ./ 1000) => :expected_ann_deaths)
