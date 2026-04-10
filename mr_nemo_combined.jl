@@ -27,6 +27,8 @@ dropmissing!(mrpm)
 fig = Figure()
 ax = Axis(fig[1,1],aspect=DataAspect())
 
+hidespines!(ax)
+
 poly!(ax,
       mrpm.geometry;
       color = mrpm.expected_ann_deaths_per_1000,
