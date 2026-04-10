@@ -94,12 +94,8 @@ pop_and_deaths = DataFrames.combine(
 
 CSV.write("data/pop_and_death_data/pop_and_deaths.csv", pop_and_deaths)
 
-function norm_to_percents(unnormed)
-    return unnormed / sum(unnormed)
-end
-
 function get_mr(deaths, population)
-    
+    return dot(population / sum(population))
 end
 
 DataFrames.combine(groupby(pop_tall, :tract), :population => sum => :total)
