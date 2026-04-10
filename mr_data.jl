@@ -92,6 +92,7 @@ pop_and_deaths = DataFrames.combine(
 
 # checking the totals of populations (all around 100, could possibly normalize) println(DataFrames.combine(groupby(pop_tall, :tract), :population => sum => :total))
 
+DataFrames.combine(groupby(pop_tall, :tract), :population => sum => :total)
 
 
 CSV.write("data/pop_and_death_data/pop_and_deaths.csv", pop_and_deaths)
