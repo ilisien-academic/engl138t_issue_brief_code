@@ -1,4 +1,4 @@
-using CSV, DataFrames
+using CSV, DataFrames, LinearAlgebra
 
 POP_PREFIX = "Total!!Estimate!!AGE!!"
 POP_AGE_GROUPS = POP_PREFIX .* [
@@ -94,10 +94,10 @@ pop_and_deaths = DataFrames.combine(
 
 CSV.write("data/pop_and_death_data/pop_and_deaths.csv", pop_and_deaths)
 
-function get_mr(deaths, population)
-    return dot(population / sum(population))
+function get_mr(age_specific_rate, population)
+    return dot(population / sum(population), age_specific_rate) # normalized population dotted with mortality rate by age group, adds up to total mortality rate
 end
 
-DataFrames.combine(groupby(pop_tall, :tract), :population => sum => :total)
+mortality_rate = DataFrames.combine(groupby(pop_and_deaths, :tract), [:rate, :population] => get_mr => :mortality_rate)
 
-
+CSV.write("data/mortality_rates.csv", mortality_rate)
