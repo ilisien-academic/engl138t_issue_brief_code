@@ -12,7 +12,6 @@ pm = GeoDataFrames.read("data/pm25s.gpkg")
 rename!(pm, :GEOID => :tract)
 transform!(mr, :tract => (x -> string.(x)) => :tract)
 
-mr = rightjoin(real_pop, mr; on=:tract)
 mrpm = rightjoin(pm, mr; on = :tract)
 
 function annual_ap_deaths_per_x_people(pm, mr)
