@@ -1,4 +1,4 @@
-using CSV, DataFrames, CairoMakie, Arrow
+using CSV, DataFrames, CairoMakie
 
 RR_AP = 1.14 # hardcoded from Lepeule
 PER_HOW_MANY_PEOPLE = 1000
