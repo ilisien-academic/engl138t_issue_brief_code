@@ -40,6 +40,6 @@ poly!(ax,
 )
 
 
-Arrow.write("data/pm25s.arrow", pa_census_tracts[:,[:GEOID, :geometry, :mean_emis])
+Arrow.write("data/pm25s.arrow", pa_census_tracts[:,[:GEOID, :geometry, :mean_emis]]) # keeping geometry type, messy but should work better?
 
 display(fig)
