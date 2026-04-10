@@ -1,7 +1,7 @@
 using CSV, DataFrames
 
-mr = CSV.read("data/mortality_rates.csv",Dataframe)
-pm = CSV.read("data/pm25s.csv",Dataframe)
+mr = CSV.read("data/mortality_rates.csv",DataFrame)
+pm = CSV.read("data/pm25s.csv",DataFrame)
 
 rename!(pm, :GEOID => :tract)
 
