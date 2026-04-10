@@ -61,7 +61,7 @@ function map_pop_to_coarse(g)
 end
 
 pop = CSV.read("data/pop_and_death_data/pop.csv", DataFrame)
-deaths = CSV.read("data/pop_and_death_data/death.csv", DataFrame)
+deaths = CSV.read("data/pop_and_death_data/death_v2.csv", DataFrame)
 
 deaths.age_group = replace.(deaths.age_group, "\n" => "", "\r" => " ", "\"" => "")
 deaths.age_group = strip.(deaths.age_group)
