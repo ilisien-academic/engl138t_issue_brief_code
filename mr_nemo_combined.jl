@@ -9,7 +9,7 @@ mr = CSV.read("data/mortality_rates.csv",DataFrame)
 pm = GeoDataFrames.read("data/pm25s.gpkg")
 
 rename!(pm, :GEOID => :tract)
-transform!(mr, :tract =>  => :tract)
+transform!(mr, :tract => (x => parse(String,x)) => :tract)
 
 mrpm = rightjoin(pm, mr; on = :tract)
 
