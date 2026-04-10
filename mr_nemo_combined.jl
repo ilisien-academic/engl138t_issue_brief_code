@@ -26,6 +26,7 @@ poly!(ax,
       mrpm.geometry;
       color = mrpm.expected_ann_deaths_per_1000,
       colormap = :plasma,
+      colorscale = log10
 )
 
 fig
