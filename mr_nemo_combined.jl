@@ -1,6 +1,6 @@
-using CSV, DataFrames
+using CSV, DataFrames, CairoMakie
 
-RR_AP = 1.14 # from Lepeule
+RR_AP = 1.14 # hardcoded from Lepeule
 PER_HOW_MANY_PEOPLE = 1000
 
 mr = CSV.read("data/mortality_rates.csv",DataFrame)
@@ -10,8 +10,19 @@ rename!(pm, :GEOID => :tract)
 
 mrpm = rightjoin(pm, mr; on = :tract)
 
-function annual_ap_deaths_per_x_people(pm, mr, rr_ap, how_many_people)
-    return how_many_people * (1 - (mr * rr_ap * pm)^-(1))
+function annual_ap_deaths_per_x_people(pm, mr)
+    return PER_HOW_MANY_PEOPLE * (1 - (mr * RR_AP * pm)^-(1))
 end
 
-transform!(mrpm, [:mean_emis,:mortality_rate] => annual_ap_deaths_per_x_people => )
+transform!(mrpm, [:mean_emis,:mortality_rate] => annual_ap_deaths_per_x_people => :expected_ann_deaths_per_1000)
+
+fig = Figure()
+ax = Axis(fig[1,1],aspect=DataAspect())
+
+poly!(ax,
+      mrpm.geometry;
+      color = mrpm.expected_ann_deaths_per_1000,
+      colormap = :plasma,
+)
+
+fig
