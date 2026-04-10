@@ -39,8 +39,6 @@ poly!(ax,
       colormap = :plasma,
 )
 
-print(pa_census_tracts)
-
 CSV.write("data/pm25s.csv", pa_census_tracts[])
 
 display(fig)
