@@ -45,13 +45,12 @@ def raster_to_npy(in_path,out_path):
     np_array = np.array(pa_only_emissions_dataset.GetRasterBand(1).ReadAsArray())
     np.save(out_path,np_array)
 
-def process_second_tif(new_tif_path, template_ds, out_path):
+def templated_tif(new_tif_path, template_ds, out_path):
+    states_shp = gpd.read_file("data/tl_2025_us_state.shp")
+    pa = states_shp[states_shp["NAME"] == "Pennsylvania"]
     new_ds = xarray.open_dataset(new_tif_path, engine="rasterio")
-
     matched_ds = new_ds.rio.reproject_match(template_ds)
-
     final_ds = matched_ds.rio.clip(pa.geometry, pa.crs, drop=False)
-    
     final_ds.rio.to_raster(out_path)
 
 if __name__ == "__main__":
@@ -59,3 +58,5 @@ if __name__ == "__main__":
     pa_ds = clip_to_PA(ds)
     reproject_and_export(pa_ds,"data/pa_pm25_emissions_data.tif")
     raster_to_npy("data/pa_pm25_emissions_data.tif","data/pa_pm25_emissions_data.npy")
+
+    templated_tif("","data/pa_pm25_emissions_data.tif","data/pa_pm25_emissions_data_v2.tif")
