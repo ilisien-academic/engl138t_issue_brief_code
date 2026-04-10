@@ -59,4 +59,4 @@ if __name__ == "__main__":
     reproject_and_export(pa_ds,"data/pa_pm25_emissions_data.tif")
     raster_to_npy("data/pa_pm25_emissions_data.tif","data/pa_pm25_emissions_data.npy")
 
-    templated_tif("","data/pa_pm25_emissions_data.tif","data/pa_pm25_emissions_data_v2.tif")
+    templated_tif("actual_pm25_conus.tif","data/pa_pm25_emissions_data.tif","data/pa_pm25_emissions_data_v2.tif")
