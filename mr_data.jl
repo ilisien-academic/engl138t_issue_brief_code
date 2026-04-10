@@ -1,4 +1,4 @@
-using CSV, DataFrames
+using CSV, DataFrames, LinearAlgebra
 
 POP_PREFIX = "Total!!Estimate!!AGE!!"
 POP_AGE_GROUPS = POP_PREFIX .* [
@@ -73,7 +73,7 @@ pop.Geography = [i[2] for i in split.(pop.Geography, "S")]
 pop_tall = DataFrames.stack(pop, POP_AGE_GROUPS; variable_name = :age_group, value_name = :population)
 rename!(pop_tall, :Geography => :tract)
 pop_tall.age_group = replace.(pop_tall.age_group, POP_PREFIX => "")
-pop_tall.population = [isnothing(v) || ismissing(v) ? missing : v isa Float64 ? v : tryparse(Float64, string(v)) for v in pop_tall.population]
+pop_tall.population = [isnothing(v) || ismissing(v) ? missing : v isa Float64 ? v : something(tryparse(Float64, string(v)), missing) for v in pop_tall.population]
 
 expanded = DataFrames.flatten(
     transform(deaths, :age_group => ByRow(g -> death_to_pop_fine[g]) => :pop_age_group),
@@ -90,7 +90,14 @@ pop_and_deaths = DataFrames.combine(
     [:pop_age_group, :population] => ((ag, p) -> sum(last(p[ag .== g]) for g in unique(ag))) => :population
 )
 
-println(DataFrames.combine(groupby(pop_tall, :tract), :population => sum => :total))
-
+# checking the totals of populations (all around 100, could possibly normalize) println(DataFrames.combine(groupby(pop_tall, :tract), :population => sum => :total))
 
 CSV.write("data/pop_and_death_data/pop_and_deaths.csv", pop_and_deaths)
+
+function get_mr(age_specific_rate, population)
+    return dot(population / sum(population), age_specific_rate) # normalized population dotted with mortality rate by age group adds up to total mortality rate
+end
+
+mortality_rate = DataFrames.combine(groupby(pop_and_deaths, :tract), [:rate, :population] => get_mr => :mortality_rate)
+
+CSV.write("data/mortality_rates.csv", mortality_rate)
