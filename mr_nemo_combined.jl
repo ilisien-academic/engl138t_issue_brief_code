@@ -1,4 +1,6 @@
 using DataFrames, CSV
 
-CSV.read("data/mortality_rates.csv",Dataframe)
-CSV.read
+mr = CSV.read("data/mortality_rates.csv",Dataframe)
+pm = CSV.read("data/pm25s.csv",Dataframe)
+
+mrpm = rightjoin()
