@@ -11,6 +11,7 @@ rename!(pm, :GEOID => :tract)
 mrpm = rightjoin(pm, mr; on = :tract)
 
 function annual_ap_deaths_per_x_people(pm, mr)
+    if missing in 
     return PER_HOW_MANY_PEOPLE * (1 - (mr * RR_AP * pm)^-(1))
 end
 
