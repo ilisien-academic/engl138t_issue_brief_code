@@ -38,4 +38,4 @@ poly!(ax,
 
 save("figs/fig1.svg",fig)
 
-transform!()
+transform!(mrpm, [:mortality_rate,:population] =>  => : )
