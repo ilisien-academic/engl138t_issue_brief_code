@@ -11,8 +11,8 @@ rename!(pm, :GEOID => :tract)
 mrpm = rightjoin(pm, mr; on = :tract)
 
 function annual_ap_deaths_per_x_people(pm, mr)
-    print(PER_HOW_MANY_PEOPLE / (1 .- (RR_AP * (mr .* pm))))
-    return PER_HOW_MANY_PEOPLE / (1 .- (RR_AP * (mr .* pm)))
+    print(PER_HOW_MANY_PEOPLE ./ (1 .- (RR_AP * (mr .* pm))))
+    return PER_HOW_MANY_PEOPLE ./ (1 .- (RR_AP * (mr .* pm)))
 end
 
 transform!(mrpm, [:mean_emis,:mortality_rate] => annual_ap_deaths_per_x_people => :expected_ann_deaths_per_1000)
