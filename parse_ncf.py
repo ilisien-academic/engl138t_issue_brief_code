@@ -45,6 +45,15 @@ def raster_to_npy(in_path,out_path):
     np_array = np.array(pa_only_emissions_dataset.GetRasterBand(1).ReadAsArray())
     np.save(out_path,np_array)
 
+def process_second_tif(new_tif_path, template_ds, out_path):
+    new_ds = xarray.open_dataset(new_tif_path, engine="rasterio")
+
+    matched_ds = new_ds.rio.reproject_match(template_ds)
+
+    final_ds = matched_ds.rio.clip(pa.geometry, pa.crs, drop=False)
+    
+    final_ds.rio.to_raster(out_path)
+
 if __name__ == "__main__":
     ds = parse_emission_ncf("data/all_emissions_data.ncf","PM25ANN")
     pa_ds = clip_to_PA(ds)
