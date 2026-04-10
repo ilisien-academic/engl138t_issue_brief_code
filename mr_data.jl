@@ -73,7 +73,7 @@ pop.Geography = [i[2] for i in split.(pop.Geography, "S")]
 pop_tall = DataFrames.stack(pop, POP_AGE_GROUPS; variable_name = :age_group, value_name = :population)
 rename!(pop_tall, :Geography => :tract)
 pop_tall.age_group = replace.(pop_tall.age_group, POP_PREFIX => "")
-pop_tall.population = [isnothing(v) || ismissing(v) ? missing : v isa Float64 ? v : tryparse(Float64, string(v)) for v in pop_tall.population]
+pop_tall.population = [isnothing(v) || ismissing(v) ? missing : v isa Float64 ? v : something(tryparse(Float64, string(v)), missing) for v in pop_tall.population]
 
 expanded = DataFrames.flatten(
     transform(deaths, :age_group => ByRow(g -> death_to_pop_fine[g]) => :pop_age_group),
