@@ -1,3 +1,4 @@
 using DataFrames, CSV
 
-CSV.read("")
+CSV.read("data/mortality_rates.csv",Dataframe)
+CSV.read
