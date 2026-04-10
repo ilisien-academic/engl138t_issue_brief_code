@@ -36,4 +36,4 @@ poly!(ax,
       colormap = :plasma,
 )
 
-fig
+save("figs/fig1.svg",fig)
