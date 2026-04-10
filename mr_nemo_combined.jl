@@ -33,7 +33,7 @@ hidedecorations!(ax)
 poly!(ax,
       mrpm.geometry;
       color = mrpm.expected_ann_deaths_per_1000,
-      colormap = :flare,
+      colormap = :magma,
 )
 
 save("figs/fig1.svg",fig)
