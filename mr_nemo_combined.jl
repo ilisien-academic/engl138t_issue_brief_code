@@ -30,11 +30,18 @@ ax = Axis(fig[1,1],aspect=DataAspect())
 hidespines!(ax)
 hidedecorations!(ax)
 
-poly!(ax,
+plt = poly!(ax,
       mrpm.geometry;
       color = mrpm.expected_ann_deaths_per_1000,
       colormap = :magma,
+      strokecolor = :transparent;
+      strokewidth = 0.1
 )
+
+cb = Colorbar(fig[1,2], plt, label = "Deaths per 1,000 people", width=20, tickalign=1)
+
+colsize!(fig.layout, 1, Relative(0.85)) 
+colgap!(fig.layout, 15)
 
 save("figs/fig1.svg",fig)
 
