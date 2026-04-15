@@ -34,7 +34,7 @@ plt = poly!(ax,
       mrpm.geometry;
       color = mrpm.expected_ann_deaths_per_1000,
       colormap = :magma,
-      strokecolor = :transparent;
+      strokecolor = :transparent,
       strokewidth = 0.1
 )
 
