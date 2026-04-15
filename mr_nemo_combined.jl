@@ -24,7 +24,7 @@ end
 transform!(mrpm, [:mean_emis,:mortality_rate] => annual_ap_deaths_per_x_people => :expected_ann_deaths_per_1000)
 dropmissing!(mrpm)
 
-fig = Figure()
+fig = Figure(size=(1000,500))
 ax = Axis(fig[1,1],aspect=DataAspect())
 
 hidespines!(ax)
