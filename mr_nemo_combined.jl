@@ -46,3 +46,5 @@ colgap!(fig.layout, 15)
 save("figs/fig1.svg",fig)
 
 transform!(mrpm, [:expected_ann_deaths_per_1000,:population] => ((x,y) -> x .* y ./ 1000) => :expected_ann_deaths)
+
+print(sum(x for x in mrpm.expected_ann_deaths if !isnan(x)))
