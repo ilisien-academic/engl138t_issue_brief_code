@@ -36,7 +36,7 @@ ax = Axis(fig[1,1],aspect=DataAspect())
 hidespines!(ax)
 hidedecorations!(ax)
 
-poly!(ax,
+plt = poly!(ax,
       pa_census_tracts.geometry;
       color = pa_census_tracts.mean_emis,
       colormap = :magma,
