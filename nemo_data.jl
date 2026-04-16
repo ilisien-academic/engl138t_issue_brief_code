@@ -3,12 +3,12 @@ ENV["JULIA_PYTHONCALL_EXE"] = "env/scripts/python.exe"
 using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statistics, LinearAlgebra, PythonCall, GeoJSON, DataFrames, CSV
 using Base.Threads
 
-pa_pm25_emis = Raster("data/pa_pm25_emissions_data.tif")
+#pa_pm25_emis = Raster("data/pa_pm25_emissions_data.tif")
 npy_data = npzread("data/pa_pm25_emissions_data.npy")
 x_range = range(1.0196644610284471e6, 2.9405851371205086e6, size(npy_data, 2))
 y_range = range(1.272233114741428e6, -176652.4464065095, size(npy_data, 1))
 
-#pa_pm25_emis = Raster(npy_data,(Y(y_range),X(x_range));crs = crs(pa_pm25_emis_tif))
+pa_pm25_emis = Raster(npy_data,(Y(y_range),X(x_range));crs = crs(pa_pm25_emis_tif))
 
 replace!(pa_pm25_emis, NaN => 0.0)
 coalesce.(pa_pm25_emis, 0.0)
