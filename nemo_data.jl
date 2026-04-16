@@ -4,9 +4,9 @@ using CairoMakie, NPZ, Rasters, Shapefile, GeoDataFrames, GeoFormatTypes, Statis
 using Base.Threads
 
 pa_pm25_emis = Raster("data/pa_pm25_emissions_data.tif")
-#npy_data = npzread("data/pa_pm25_emissions_data.npy")
-#x_range = range(1.0196644610284471e6, 2.9405851371205086e6, size(npy_data, 2))
-#y_range = range(1.272233114741428e6, -176652.4464065095, size(npy_data, 1))
+npy_data = npzread("data/pa_pm25_emissions_data.npy")
+x_range = range(1.0196644610284471e6, 2.9405851371205086e6, size(npy_data, 2))
+y_range = range(1.272233114741428e6, -176652.4464065095, size(npy_data, 1))
 
 #pa_pm25_emis = Raster(npy_data,(Y(y_range),X(x_range));crs = crs(pa_pm25_emis_tif))
 
@@ -42,6 +42,6 @@ poly!(ax,
       colormap = :magma,
 )
 
-GeoDataFrames.write("data/pm25s.gpkg", pa_census_tracts[:,[:GEOID, :geometry, :mean_emis]])
+#GeoDataFrames.write("data/pm25s.gpkg", pa_census_tracts[:,[:GEOID, :geometry, :mean_emis]])
 
 save("figs/fig-1.svg",fig)
