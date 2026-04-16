@@ -11,3 +11,7 @@ println("pollution totals: $summary")
 
 sankey_collate = combine(groupby(sources, [:desc, :source_label]), :pm25 => sum => :value)
 
+# see docs for 
+sources = sankey_data.desc 
+targets = sankey_data.source_label
+values = 
