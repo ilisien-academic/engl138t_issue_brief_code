@@ -42,6 +42,12 @@ poly!(ax,
       colormap = :magma,
 )
 
+cb = Colorbar(fig[1,2], plt, label = "", width=20, tickalign=1)
+
+colsize!(fig.layout, 1, Relative(0.85)) 
+colgap!(fig.layout, 15)
+
+
 GeoDataFrames.write("data/pm25s.gpkg", pa_census_tracts[:,[:GEOID, :geometry, :mean_emis]])
 
 save("figs/fig0.svg",fig)
