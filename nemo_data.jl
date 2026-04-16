@@ -33,11 +33,20 @@ coalesce.(pa_census_tracts[!,:mean_emis], 0.0)
 fig = Figure()
 ax = Axis(fig[1,1],aspect=DataAspect())
 
+hidespines!(ax)
+hidedecorations!(ax)
+
 poly!(ax,
       pa_census_tracts.geometry;
       color = pa_census_tracts.mean_emis,
       colormap = :magma,
 )
+
+cb = Colorbar(fig[1,2], plt, label = "Emissions", width=20, tickalign=1)
+
+colsize!(fig.layout, 1, Relative(0.85)) 
+colgap!(fig.layout, 15)
+
 
 CSV.write("data/pm25s.csv", pa_census_tracts[:,[:GEOID, :geometry, :mean_emis]])
 

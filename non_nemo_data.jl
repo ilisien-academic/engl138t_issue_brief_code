@@ -42,7 +42,7 @@ poly!(ax,
       colormap = :magma,
 )
 
-cb = Colorbar(fig[1,2], plt, label = "", width=20, tickalign=1)
+cb = Colorbar(fig[1,2], plt, label = "Emissions", width=20, tickalign=1)
 
 colsize!(fig.layout, 1, Relative(0.85)) 
 colgap!(fig.layout, 15)
