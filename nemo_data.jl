@@ -39,7 +39,7 @@ hidedecorations!(ax)
 plt = poly!(ax,
       pa_census_tracts.geometry;
       color = pa_census_tracts.mean_emis,
-      colormap = :plasma,
+      colormap = :viridis,
 )
 
 cb = Colorbar(fig[1,2], plt, label = "Emissions", width=20, tickalign=1)
