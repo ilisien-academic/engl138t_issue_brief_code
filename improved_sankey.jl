@@ -1,24 +1,57 @@
-using SankeyMakie, CSV, CairoMakie, DataFrames 
+using CSV
+using DataFrames
+using CairoMakie
+using SankeyMakie
 
-sources = CSV.read("data/by_type.csv",DataFrame)
+# 1. Load and clean the data
+df = CSV.read("by_type.csv", DataFrame)
+dropmissing!(df, :"pm2.5 emissions")
 
-dropmissing!(sources, :pm25)
+# 2. Summarize total emissions by Commercial vs Non-Commercial
+# Map 1 -> Commercial, 0 -> Non-Commercial
+df.source_type = [x == 1 ? "Commercial" : "Non-Commercial" for x in df."commercial source"]
 
-sources.source_label = [x == 1 ? "Commercial" : "Non-Commercial" for x in sources.commercial_source]
+summary = combine(groupby(df, :source_type), :"pm2.5 emissions" => sum => :total)
+println("Total PM2.5 Emissions by Source Type:")
+println(summary)
 
-summary = combine(groupby(sources, :source_label), :pm25 => sum => :total_emissions)
-println("pollution totals: $summary")
+# 3. Prepare labels for the Sankey Plot
+# We want to show flows from Major Groupings (desc) to Source Type
+# First, let's identify which 'desc' are Industrial for clearer grouping
+industrial_keywords = ["Industrial", "Mfg", "Processing", "Petroleum"]
+df.is_industrial = [any(occursin.(industrial_keywords, row.desc)) for row in eachrow(df)]
 
-sankey_collate = combine(groupby(sources, [:desc, :source_label]), :pm25 => sum => :value)
+# Create a refined grouping label: e.g., "Industrial (Metals Processing)"
+df.major_group = [row.is_industrial ? "Ind: $(row.desc)" : row.desc for row in eachrow(df)]
 
-# see docs for SankeyPlots.jl
-sources = sankey_collate.desc 
-targets = sankey_collate.source_label
-values = sankey_collate.value
+# Aggregate data for the flow: Major Group -> Source Type
+flow_df = combine(groupby(df, [:major_group, :source_type]), :"pm2.5 emissions" => sum => :value)
 
-fig = Figure()
-ax = Axis(fig[1,1])
+# 4. Create Nodes and Connections
+# To use the connections syntax (src_idx, dst_idx, value), we need unique labels
+all_major_groups = unique(flow_df.major_group)
+all_source_types = unique(flow_df.source_type)
 
-sankey!(ax, sources, targets, values)
+labels = [all_major_groups; all_source_types]
+label_to_idx = Dict(name => i for (i, name) in enumerate(labels))
 
-save("emissions_sankey.svg", fig)
+# Build the connections vector of tuples (Source index, Target index, Value)
+connections = [
+    (label_to_idx[row.major_group], label_to_idx[row.source_type], row.value)
+    for row in eachrow(flow_df)
+]
+
+# 5. Plot using SankeyMakie
+# We define colors: Industrial groups in blue-tones, others in greens, targets in orange/gray
+node_colors = [i <= length(all_major_groups) ? :teal : :orange for i in 1:length(labels)]
+
+fig = sankey(connections,
+    nodelabels = labels,
+    nodecolor = node_colors,
+    linkcolor = SankeyMakie.Gradient(0.5), # Creates a gradient flow from source to target
+    axis = (title = "Pollution Flow: Major Industrial/Commercial Groupings",),
+    figure = (; size = (1200, 800))
+)
+
+# Save the resulting visualization
+save("pollution_sankey_final.png", fig)
