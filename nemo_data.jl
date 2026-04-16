@@ -44,4 +44,4 @@ poly!(ax,
 
 GeoDataFrames.write("data/pm25s.gpkg", pa_census_tracts[:,[:GEOID, :geometry, :mean_emis]])
 
-save("figs/fig0.svg",fig)
+save("figs/fig-1.svg",fig)
