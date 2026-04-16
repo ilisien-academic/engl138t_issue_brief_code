@@ -36,7 +36,7 @@ ax = Axis(fig[1,1],aspect=DataAspect())
 poly!(ax,
       pa_census_tracts.geometry;
       color = pa_census_tracts.mean_emis,
-      colormap = :plasma,
+      colormap = :magma,
 )
 
 CSV.write("data/pm25s.csv", pa_census_tracts[:,[:GEOID, :geometry, :mean_emis]])
