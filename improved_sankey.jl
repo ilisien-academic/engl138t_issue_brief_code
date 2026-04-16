@@ -4,7 +4,7 @@ using CairoMakie
 using SankeyMakie
 
 # 1. Load and clean the data
-df = CSV.read("by_type.csv", DataFrame)
+df = CSV.read("data/by_type.csv", DataFrame)
 dropmissing!(df, :"pm2.5 emissions")
 
 # 2. Summarize total emissions by Commercial vs Non-Commercial
