@@ -9,7 +9,7 @@ dropmissing!(df, :pm25)
 
 # 2. Summarize total emissions by Commercial vs Non-Commercial
 # Map 1 -> Commercial, 0 -> Non-Commercial
-df.source_type = [x == 1 ? "Commercial" : "Non-Commercial" for x in df."commercial source"]
+df.source_type = [x == 1 ? "Commercial" : "Non-Commercial" for x in df.commercial_source]
 
 summary = combine(groupby(df, :source_type), :pm25 => sum => :total)
 println("Total PM2.5 Emissions by Source Type:")
