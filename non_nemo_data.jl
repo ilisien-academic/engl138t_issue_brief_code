@@ -30,7 +30,7 @@ pa_census_tracts[!,:mean_emis] = emis_means
 replace!(pa_census_tracts[!,:mean_emis], NaN => 0.0)
 coalesce.(pa_census_tracts[!,:mean_emis], 0.0)
 
-fig = Figure()
+fig = Figure(size=(1000,500))
 ax = Axis(fig[1,1],aspect=DataAspect())
 
 hidespines!(ax)
