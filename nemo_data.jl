@@ -41,4 +41,4 @@ poly!(ax,
 
 CSV.write("data/pm25s.csv", pa_census_tracts[:,[:GEOID, :geometry, :mean_emis]])
 
-display(fig)
+save("figs/fig-1.svg",fig)
