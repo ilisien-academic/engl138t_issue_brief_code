@@ -5,13 +5,13 @@ using SankeyMakie
 
 # 1. Load and clean the data
 df = CSV.read("data/by_type.csv", DataFrame)
-dropmissing!(df, :"pm2.5 emissions")
+dropmissing!(df, :pm25)
 
 # 2. Summarize total emissions by Commercial vs Non-Commercial
 # Map 1 -> Commercial, 0 -> Non-Commercial
 df.source_type = [x == 1 ? "Commercial" : "Non-Commercial" for x in df."commercial source"]
 
-summary = combine(groupby(df, :source_type), :"pm2.5 emissions" => sum => :total)
+summary = combine(groupby(df, :source_type), :pm25 => sum => :total)
 println("Total PM2.5 Emissions by Source Type:")
 println(summary)
 
@@ -25,7 +25,7 @@ df.is_industrial = [any(occursin.(industrial_keywords, row.desc)) for row in eac
 df.major_group = [row.is_industrial ? "Ind: $(row.desc)" : row.desc for row in eachrow(df)]
 
 # Aggregate data for the flow: Major Group -> Source Type
-flow_df = combine(groupby(df, [:major_group, :source_type]), :"pm2.5 emissions" => sum => :value)
+flow_df = combine(groupby(df, [:major_group, :source_type]), :pm25 => sum => :value)
 
 # 4. Create Nodes and Connections
 # To use the connections syntax (src_idx, dst_idx, value), we need unique labels
