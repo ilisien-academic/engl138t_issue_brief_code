@@ -11,7 +11,14 @@ println("pollution totals: $summary")
 
 sankey_collate = combine(groupby(sources, [:desc, :source_label]), :pm25 => sum => :value)
 
-# see docs for 
+# see docs for SankeyPlots.jl
 sources = sankey_data.desc 
 targets = sankey_data.source_label
-values = 
+values = sankey_data.value
+
+fig = Figure()
+ax = Axis(fig[1,1])
+
+sankey!(ax, sources, targets, values)
+
+save("emissions_sankey.svg", fig)
