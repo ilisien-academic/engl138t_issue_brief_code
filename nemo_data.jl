@@ -23,8 +23,8 @@ PYgpd = pyimport("geopandas")
 PYee = pyimport("exactextract")
 
 PY_tracts = PYgpd.read_file(tmp_tracts_string, driver="GeoJSON")
-PY_emis_mean = PYee.exact_extract("data/tmp_emissions.tiff",PY_tracts, pylist(["mean"]))
-emis_means = [pyconvert(Float64, em["properties"]["mean"]) for em in PY_emis_mean]
+PY_emis_mean = PYee.exact_extract("data/tmp_emissions.tiff",PY_tracts, pylist(["sum"]))
+emis_means = [pyconvert(Float64, em["properties"]["sum"]) for em in PY_emis_mean]
 pa_census_tracts[!,:mean_emis] = emis_means
 
 replace!(pa_census_tracts[!,:mean_emis], NaN => 0.0)
